@@ -3,7 +3,7 @@ TCMer
 
 [![Gitter](https://badges.gitter.im/yaitza/tcmer.svg)](https://gitter.im/yaitza/tcmer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 [![GitHub release](https://img.shields.io/github/release/yaitza/tcmwe.svg)](https://github.com/yaitza/tcmer/releases)
-[![Docs](https://img.shields.io/badge/Docs-Chinese-blue.svg)](https://github.com/yaitza/tcmer/blob/master/README_zh.md)
+[![Docs](https://img.shields.io/badge/Docs-English-blue.svg)](https://github.com/yaitza/tcmer/blob/master/README.md)
 
 TCMer is a test case management tool.
 
