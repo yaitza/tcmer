@@ -1,8 +1,8 @@
 ### 数据库设计文档
 
-#### [设计UML图](db.png) 
+#### [设计UML图](./db.png) 
 
-![db](.\db.png)
+![db](db.png)
 
 
 
