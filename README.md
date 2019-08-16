@@ -7,7 +7,7 @@ TCMer
 
 TCMer is a test case management tool.
 
-TCMer is good at iterations within the use case reuse.
+TCMer is good at iterations within the use case reuse and the version control of test cases.
 
 Features
 ====================
