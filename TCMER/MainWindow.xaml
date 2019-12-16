@@ -78,8 +78,8 @@
             <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
             <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
 
-            <ComboBox Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
-            <ComboBox Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
+            <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
+            <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
 
             <Label Content="执行人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
