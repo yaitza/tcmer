@@ -25,74 +25,79 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
-    <StackPanel Margin="0,0,0,0" HorizontalAlignment="Right" Width="800">
-        <Menu Style="{DynamicResource MenuBaseStyle}"  HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="200">
-            <MenuItem Header="配置">
-                <MenuItem Header="_New..."  IsCheckable="True"/>
-                <MenuItem Header="_Open..." InputGestureText="ctrl+o" />
-                <Separator />
-                <MenuItem Header="Sen_d To">
-                    <MenuItem Header="Mail Recipient" />
-                    <MenuItem Header="My Documents" />
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="_Edit"></MenuItem>
-            <MenuItem Header="_View"></MenuItem>
-            <MenuItem Header="_Help"></MenuItem>
-        </Menu>
-        <StackPanel Height="290" Orientation="Horizontal" HorizontalAlignment="Right" Width="790" Margin="0,0,0,0">
-            <StackPanel Height="450" HorizontalAlignment="Left" Margin="0,0,200,-158.4" Width="300" VerticalAlignment="Top">
-                <ListView Height="450" HorizontalAlignment="Right" Width="300">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="test1"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
-            <StackPanel Height="450" HorizontalAlignment="Right" Margin="-200,0,0,-160.4" Width="490" VerticalAlignment="Top">
-                <Grid  Height="450" Margin="0,0,0,0">
-                    <Label Content="测试用例编号" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="20,10,0,0" VerticalAlignment="Top" />
-                    <Label Content="测试用例名称" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="20,45,0,0" VerticalAlignment="Top" />
-                    <Label Content="摘要" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="20,80,0,0" VerticalAlignment="Top" />
-                    <Label Content="前提" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="20,115,0,0" VerticalAlignment="Top" />
-                    <Label Content="重要性" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="20,150,0,0" VerticalAlignment="Top" />
-                    <Label Content="用例类型" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Width="100" Margin="230,150,0,0" VerticalAlignment="Top" />
+    <Grid Height="570" Width="785" Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="38*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="65*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListView Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-                    <TextBox Name="TestcaseId" HorizontalAlignment="Left" Height="20" Margin="125,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310" />
-                    <TextBox Name="TestcaseName" HorizontalAlignment="Left" Height="20" Margin="125,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
-                    <TextBox Name="TestcaseSummary" HorizontalAlignment="Left" Height="20" Margin="125,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
-                    <TextBox Name="TestcasePrecondition"  HorizontalAlignment="Left" Height="20" Margin="125,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310"/>
+        <Grid Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="16*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="16*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="32*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Content="测试用例编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="测试用例名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="摘要" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="前提" Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="重要性" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="用例类型" Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-                    <ComboBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="125,149,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
-                    <ComboBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="335,149,0,0" VerticalAlignment="Top" Width="100" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
+            <TextBox Name="TestcaseId" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
+            <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
 
-                    <DataGrid Name="TestcaseSteps" HorizontalAlignment="Left" Margin="20,182,0,0" Width="415" Height="130" VerticalAlignment="Top"/>
+            <ComboBox Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
+            <ComboBox Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
 
-                    <Label Content="执行人" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="20,315,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="执行方式" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="20,350,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="创建人" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="20,385,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="修改人" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="20,420,0,0" VerticalAlignment="Top" Width="100"/>
+            <Label Content="执行人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="执行方式" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="执行结果" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="修改人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="修改时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="创建人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Content="创建时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                    <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="230,315,0,0" VerticalAlignment="Top" Width="94"/>
-                    <Label Content="执行结果" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="230,350,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="0.532,-0.75"/>
-                    <Label Content="创建时间" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="230,385,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="0.515,-0.162"/>
-                    <Label Content="修改时间" Style="{DynamicResource LabelPrimary}" HorizontalAlignment="Left" Margin="230,420,0,0" VerticalAlignment="Top" Width="94"/>
-
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="125,315,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="125,350,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="125,385,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="125,420,0,0" VerticalAlignment="Top" Width="100"/>
-
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="335,315,0,0" VerticalAlignment="Top" Width="100"/>
-                    <ComboBox HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top"  Margin="335,350,0,0" Width="100" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}"/>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="335,385,0,0" VerticalAlignment="Top" Width="100"/>
-                    <Label Content="Label" HorizontalAlignment="Left" Margin="335,420,0,0" VerticalAlignment="Top" Width="100"/>
-
-
-
-                </Grid>
-            </StackPanel>
-        </StackPanel>
-    </StackPanel>
+            <Label Name="TestCaseExecutor" Content="TestCaseExecutor" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseExecuteTime" Content="TestCaseExecuteTime" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseExecuteType" Content="TestCaseExecuteType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}"/>
+            <Label Name="TestCaseModifier"  Content="TestCaseModifier" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseModifyTime" Content="TestCaseModifyTime" Grid.Column="5" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+    </Grid>
 </Window>
