@@ -23,3 +23,6 @@ hs_err_pid*
 /TCMER/.vs/TCMER/v16
 /TCMER/bin/Debug
 /TCMER/obj/Debug
+/NUnitTestProject/bin/Debug/netcoreapp2.1
+/NUnitTestProject/obj
+/TCMER/packages

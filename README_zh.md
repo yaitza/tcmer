@@ -21,6 +21,12 @@ Install
 
 安装部署软件要求：
 
+引用第三方类库：
+
+	1. [HandyControl]( https://github.com/NaBian/HandyControl ) v2.3.0
+ 	2. [MySql.Data]( https://dev.mysql.com/downloads/ )  v8.0.18
+ 	3. [LiteDB](https://www.litedb.org/) v4.1.4
+
 
 Note
 ====================

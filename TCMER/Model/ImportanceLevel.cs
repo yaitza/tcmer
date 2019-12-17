@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TCMER
+namespace TCMER.Model
 {
     public enum ImportanceLevel
     {

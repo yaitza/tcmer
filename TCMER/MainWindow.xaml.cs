@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TCMER.Dao;
 
 namespace TCMER
 {
@@ -23,6 +24,8 @@ namespace TCMER
         public MainWindow()
         {
             InitializeComponent();
+            TreeNodeMapper tnm = new TreeNodeMapper();
+            var td = tnm.GetAllNodes();
         }
     }
 }

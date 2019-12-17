@@ -6,22 +6,23 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:TCMER"
         xmlns:SystemColors="clr-namespace:System;assembly=mscorlib"
+        xmlns:model="clr-namespace:TCMER.Model"
         mc:Ignorable="d"
         Title="TCMER" Height="600" Width="800">
     <Window.Resources>
         <ObjectDataProvider x:Key="ImportanceLevel" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:ImportanceLevel" />
+                <x:Type TypeName="model:ImportanceLevel" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="ExecuteType" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:ExecuteType" />
+                <x:Type TypeName="model:ExecuteType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="ExecuteResultType" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="local:ExecuteResultType" />
+                <x:Type TypeName="model:ExecuteResultType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
@@ -37,13 +38,12 @@
             <RowDefinition Height="65*"></RowDefinition>
             <RowDefinition Height="20*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListView Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <TreeView Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="x:Type local:TreeNodeModel" ItemsSource="{Binding Path=Children}"></HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+
+        </TreeView>
 
         <Grid Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
