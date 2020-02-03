@@ -26,3 +26,4 @@ hs_err_pid*
 /NUnitTestProject/bin/Debug/netcoreapp2.1
 /NUnitTestProject/obj
 /TCMER/packages
+/TCMER/.vs/TCMER/DesignTimeBuild/.dtbcache
