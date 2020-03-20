@@ -8,7 +8,7 @@
         xmlns:SystemColors="clr-namespace:System;assembly=mscorlib"
         xmlns:model="clr-namespace:TCMER.Model"
         mc:Ignorable="d"
-        Title="TCMER" Height="600" Width="800">
+        Title="TCMER">
     <Window.Resources>
         <ObjectDataProvider x:Key="ImportanceLevel" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
@@ -26,7 +26,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
-    <Grid Height="570" Width="785" Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
+    <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="38*"/>
             <ColumnDefinition Width="1*"/>
@@ -38,14 +38,12 @@
             <RowDefinition Height="65*"></RowDefinition>
             <RowDefinition Height="20*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="x:Type local:TreeNodeModel" ItemsSource="{Binding Path=Children}">
-
+                <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
+                    <TextBlock Text="{Binding DataBody}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-
-
         </TreeView>
 
         <Grid Name="NodeDetails" Visibility="Hidden" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

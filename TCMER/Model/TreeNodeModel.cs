@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,10 @@ namespace TCMER.Model
     /// </summary>
     public class TreeNodeModel
     {
+        public TreeNodeModel()
+        {
+            this.Nodes = new ObservableCollection<TreeNodeModel>();
+        }
         /// <summary>
         /// 树节点ID
         /// </summary>
@@ -46,9 +51,6 @@ namespace TCMER.Model
         /// </summary>
         public int Depth { get; set; }
 
-        /// <summary>
-        /// 树节点下子节点
-        /// </summary>
-        public List<TreeNodeModel> Children { get; set; }
+        public ObservableCollection<TreeNodeModel> Nodes { get; set; }
     }
 }

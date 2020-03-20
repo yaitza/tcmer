@@ -13,6 +13,8 @@ namespace TCMER
             InitializeComponent();
             TreeNodeMapper tnm = new TreeNodeMapper();
             var td = tnm.GetAllNodes();
+            this.TreeView.Items.Add(td);
+            //this.TreeView.ItemsSource = td;
         }
     }
 }
