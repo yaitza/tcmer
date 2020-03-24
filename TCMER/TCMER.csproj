@@ -96,8 +96,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dao\TestCaseMapper.cs" />
     <Compile Include="Dao\TreeNodeMapper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
+    <Compile Include="Model\NodeType.cs" />
+    <Compile Include="Model\TestCaseModel.cs" />
+    <Compile Include="Model\TestStepModel.cs" />
     <Compile Include="Model\TreeNodeModel.cs" />
     <Compile Include="Utils\ConfigHelper.cs" />
     <Compile Include="Utils\MySqlHelper.cs" />
@@ -111,7 +115,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\ExecuteResultType.cs" />
-    <Compile Include="Model\ExecuteType.cs" />
+    <Compile Include="Model\TestCaseType.cs" />
     <Compile Include="Model\ImportanceLevel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

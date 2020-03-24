@@ -46,6 +46,7 @@ namespace TCMER.Dao
                     tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
                     tnm.UpdateBy = dr["UPDATED_BY"].ToString();
                     tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
+                    tnm.NodeType = NodeType.TestSuite;
                     GetNodesByAncestor(tnm.Nodes,tnm.Id);
 
                     tnmList.Add(tnm);
@@ -106,6 +107,7 @@ namespace TCMER.Dao
                     tnm.UpdateBy = dr["UPDATED_BY"].ToString();
                     tnm.Depth = int.Parse(dr["DEPTH"].ToString());
                     tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
+                    tnm.NodeType = NodeType.TestSuite;
                     tnmList.Add(tnm);
                 }
             }
@@ -126,6 +128,7 @@ namespace TCMER.Dao
                         tnm.UpdateBy = dr["UPDATED_BY"].ToString();
                         tnm.Depth = int.Parse(dr["DEPTH"].ToString());
                         tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
+                        tnm.NodeType = NodeType.TestCase;
                         tnmList.Add(tnm);
                     }
                 }

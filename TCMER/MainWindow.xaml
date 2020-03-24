@@ -8,7 +8,7 @@
         xmlns:SystemColors="clr-namespace:System;assembly=mscorlib"
         xmlns:model="clr-namespace:TCMER.Model"
         mc:Ignorable="d"
-        Title="TCMER">
+        Title="TCMER" Loaded="Window_Loaded">
     <Window.Resources>
         <ObjectDataProvider x:Key="ImportanceLevel" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
@@ -17,7 +17,7 @@
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="ExecuteType" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:ExecuteType" />
+                <x:Type TypeName="model:TestCaseType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="ExecuteResultType" MethodName="GetValues" ObjectType="{x:Type SystemColors:Enum}" >
@@ -26,19 +26,20 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
-    <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
+    <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="38*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="60*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="287*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="420*"/>
+            <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"></RowDefinition>
             <RowDefinition Height="65*"></RowDefinition>
             <RowDefinition Height="20*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged" Margin="0,0,0.2,100.6" Grid.RowSpan="2">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
                     <TextBlock Text="{Binding DataBody}" />
@@ -46,11 +47,11 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <Grid Name="NodeDetails" Visibility="Hidden" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Name="NodeDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="7.8,0,6.8,100.6" Grid.RowSpan="2">
 
         </Grid>
 
-        <Grid Name="TestCaseDetails" Visibility="Visible" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Name="TestCaseDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="7.8,0,6.8,100.6" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -82,9 +83,22 @@
             <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
             <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
             <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
-
             <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
             <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
+
+            <DataGrid Name="TestCaseSteps" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" GridLinesVisibility="Vertical"  >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" FontWeight="Bold" />
+                    <DataGridTextColumn Width="*" Header="步骤" Binding="{Binding Path=StepOrder}" FontWeight="Bold" />
+                    <DataGridTextColumn Width="*"  Header="执行操作" Binding="{Binding Path=StepActions}" FontWeight="Bold" />
+                    <DataGridTextColumn Width="*" Header="预期结果" Binding="{Binding Path=StepResults}" FontWeight="Bold" />
+                    <DataGridTextColumn Header="修改人" Binding="{Binding Path=UpdateBy}" FontWeight="Bold" />
+                    <DataGridTextColumn Header="修改时间" Binding="{Binding Path=UpdateTime}" FontWeight="Bold" />
+                    <DataGridTextColumn Header="创建人" Binding="{Binding Path=CreateBy}" FontWeight="Bold" />
+                    <DataGridTextColumn Header="创建时间" Binding="{Binding Path=CreateTime}" FontWeight="Bold" />
+                </DataGrid.Columns>
+            </DataGrid>
+
 
             <Label Content="执行人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -97,12 +111,14 @@
 
             <Label Name="TestCaseExecutor" Content="TestCaseExecutor" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseExecuteTime" Content="TestCaseExecuteTime" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseExecuteType" Content="TestCaseExecuteType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseExecuteType" Content="TestCaseTestCaseType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}"/>
-            <Label Name="TestCaseModifier"  Content="TestCaseModifier" Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Label Name="TestCaseModifier"  Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseModifyTime" Content="TestCaseModifyTime" Grid.Column="5" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
     </Grid>
+
+    
 </Window>

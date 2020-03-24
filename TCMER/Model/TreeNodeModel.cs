@@ -51,6 +51,11 @@ namespace TCMER.Model
         /// </summary>
         public int Depth { get; set; }
 
+        /// <summary>
+        /// 节点类型，测试套或者测试用例
+        /// </summary>
+        public NodeType NodeType { get; set; }
+
         public ObservableCollection<TreeNodeModel> Nodes { get; set; }
     }
 }
