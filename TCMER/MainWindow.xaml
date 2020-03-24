@@ -28,18 +28,14 @@
     </Window.Resources>
     <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="287*"/>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="35*"/>
-            <ColumnDefinition Width="420*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="80*"></RowDefinition>
             <RowDefinition Height="15*"></RowDefinition>
-            <RowDefinition Height="65*"></RowDefinition>
-            <RowDefinition Height="20*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged" Margin="0,0,0.2,100.6" Grid.RowSpan="2">
+        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
                     <TextBlock Text="{Binding DataBody}" />
@@ -47,11 +43,40 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <Grid Name="NodeDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="7.8,0,6.8,100.6" Grid.RowSpan="2">
+        <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="15*"></ColumnDefinition>
+                <ColumnDefinition Width="20*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="100*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="10*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Content="测试用例集编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="测试用例集名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="测试用例集备注" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="修改人" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="修改时间" Grid.Column="2" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="创建人" Grid.Column="0" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Content="创建时间" Grid.Column="2" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+            <TextBox Name="TestsuiteId" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBox Name="TestsuiteName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBox Name="TestsuiteNote" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <Label Name="TestsuiteModifier" Grid.Column="1" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Name="TestsuiteModifyTime" Grid.Column="3" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Name="TestsuiteCreator" Grid.Column="1" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <Label Name="TestsuiteCreateTime" Grid.Column="3" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
         </Grid>
 
-        <Grid Name="TestCaseDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="7.8,0,6.8,100.6" Grid.RowSpan="2">
+        <Grid Name="TestCaseDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -66,7 +91,7 @@
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="32*"></RowDefinition>
+                <RowDefinition Height="50*"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
@@ -86,16 +111,16 @@
             <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
             <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
 
-            <DataGrid Name="TestCaseSteps" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" GridLinesVisibility="Vertical"  >
+            <DataGrid Name="TestCaseSteps" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" FontWeight="Bold" />
-                    <DataGridTextColumn Width="*" Header="步骤" Binding="{Binding Path=StepOrder}" FontWeight="Bold" />
-                    <DataGridTextColumn Width="*"  Header="执行操作" Binding="{Binding Path=StepActions}" FontWeight="Bold" />
-                    <DataGridTextColumn Width="*" Header="预期结果" Binding="{Binding Path=StepResults}" FontWeight="Bold" />
-                    <DataGridTextColumn Header="修改人" Binding="{Binding Path=UpdateBy}" FontWeight="Bold" />
-                    <DataGridTextColumn Header="修改时间" Binding="{Binding Path=UpdateTime}" FontWeight="Bold" />
-                    <DataGridTextColumn Header="创建人" Binding="{Binding Path=CreateBy}" FontWeight="Bold" />
-                    <DataGridTextColumn Header="创建时间" Binding="{Binding Path=CreateTime}" FontWeight="Bold" />
+                    <!--<DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />-->
+                    <DataGridTextColumn Header="步骤" Binding="{Binding Path=StepOrder}" Width="10*" />
+                    <DataGridTextColumn Header="执行操作" Binding="{Binding Path=StepActions}" Width="45*"/>
+                    <DataGridTextColumn Header="预期结果" Binding="{Binding Path=StepResults}" Width="45*"/>
+                    <!--<DataGridTextColumn Header="修改人" Binding="{Binding Path=UpdateBy}" />
+                    <DataGridTextColumn Header="修改时间" Binding="{Binding Path=UpdateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
+                    <DataGridTextColumn Header="创建人" Binding="{Binding Path=CreateBy}" />
+                    <DataGridTextColumn Header="创建时间" Binding="{Binding Path=CreateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />-->
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -120,5 +145,5 @@
         </Grid>
     </Grid>
 
-    
+
 </Window>

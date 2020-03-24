@@ -11,42 +11,42 @@ namespace TCMER.Model
         /// <summary>
         /// 测试步骤ID
         /// </summary>
-        public string Id;
+        public string Id { get; set; }
 
         /// <summary>
         /// 测试步骤顺序
         /// </summary>
-        public int StepOrder;
+        public int StepOrder { get; set; }
 
         /// <summary>
         /// 测试步骤动作
         /// </summary>
-        public string StepActions;
+        public string StepActions { get; set; }
 
         /// <summary>
         /// 测试步骤执行结果
         /// </summary>
-        public string StepResults;
+        public string StepResults { get; set; }
 
         /// <summary>
         /// 测试步骤创建人
         /// </summary>
-        public string CreateBy;
+        public string CreateBy { get; set; }
 
         /// <summary>
         /// 测试步骤创建时间
         /// </summary>
-        public DateTime CreateTime;
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 测试步骤更新者
         /// </summary>
-        public string UpdateBy;
+        public string UpdateBy { get; set; }
 
         /// <summary>
         /// 测试步骤更新时间
         /// </summary>
-        public DateTime UpdateTime;
+        public DateTime UpdateTime { get; set; }
 
     }
 }

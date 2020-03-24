@@ -2,6 +2,7 @@
 using HandyControl.Tools.Extension;
 using TCMER.Dao;
 using TCMER.Model;
+using System;
 
 namespace TCMER
 {
@@ -10,39 +11,45 @@ namespace TCMER
     /// </summary>
     public partial class MainWindow : Window
     {
+        [Obsolete]
         public MainWindow()
         {
             InitializeComponent();
-            TreeNodeMapper tnm = new TreeNodeMapper();
-            var td = tnm.GetAllNodes();
-            this.TreeView.Items.Add(td);
 
         }
 
-
+        [System.Obsolete]
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (this.TreeView.SelectedItem.GetType().IsGenericType)
+            {
+                return;
+            }
             if (this.TreeView.SelectedItem != null)
             {
                 this.ShowData((TreeNodeModel)this.TreeView.SelectedItem);
             }
         }
 
-        [System.Obsolete]
+        [Obsolete]
         private void ShowData(TreeNodeModel node)
         {
             if (node.NodeType == NodeType.TestSuite)
             {
-                this.TestcaseId.Text = node.Id;
-                this.TestcaseName.Text = node.DataBody;
-                this.TestCaseCreator.Name = node.CreateBy;
-                this.TestCaseCreateTime.Name = node.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                this.TestCaseModifier.Name = node.UpdateBy;
-                this.TestCaseModifyTime.Name = node.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                this.TestCaseDetails.Visibility = Visibility.Hidden;
+                this.NodeDetails.Visibility = Visibility.Visible;
+                this.TestsuiteId.Text = node.Id;
+                this.TestsuiteName.Text = node.DataBody;
+                this.TestsuiteCreator.Content = node.CreateBy;
+                this.TestsuiteCreateTime.Content = node.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                this.TestsuiteModifier.Content = node.UpdateBy;
+                this.TestsuiteModifyTime.Content = node.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
             if (node.NodeType == NodeType.TestCase)
             {
+                this.NodeDetails.Visibility = Visibility.Hidden;
+                this.TestCaseDetails.Visibility = Visibility.Visible;
                 TestCaseMapper tcm = new TestCaseMapper();
                 TestCaseModel tcModel = tcm.QueryTestCaseById(node.Id);
                 this.TestcaseId.Text = tcModel.Id;
@@ -59,12 +66,12 @@ namespace TCMER
             }
         }
 
+        [Obsolete]
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TreeNodeModel tnmss = new TreeNodeModel();
-            tnmss.Id = "tc_00001";
-            tnmss.NodeType = NodeType.TestCase;
-            this.ShowData(tnmss);
+            TreeNodeMapper tnm = new TreeNodeMapper();
+            var td = tnm.GetAllNodes();
+            this.TreeView.ItemsSource = td;
         }
     }
 }

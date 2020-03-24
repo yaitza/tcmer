@@ -12,57 +12,57 @@ namespace TCMER.Model
         /// <summary>
         /// 测试用例ID
         /// </summary>
-        public string Id;
+        public string Id { get; set; }
 
         /// <summary>
         /// 测试用例名称
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
 
         /// <summary>
         /// 测试用例摘要
         /// </summary>
-        public string Summary;
+        public string Summary { get; set; }
 
         /// <summary>
         /// 测试用例前提
         /// </summary>
-        public string Precondition;
+        public string Precondition { get; set; }
 
         /// <summary>
         /// 测试用例重要性
         /// </summary>
-        public ImportanceLevel Importance;
+        public ImportanceLevel Importance { get; set; }
 
         /// <summary>
         /// 测试用例类型
         /// </summary>
-        public TestCaseType TestCaseType;
+        public TestCaseType TestCaseType { get; set; }
 
         /// <summary>
         /// 测试用例步骤
         /// </summary>
-        public ObservableCollection<TestStepModel> TestSteps;
+        public ObservableCollection<TestStepModel> TestSteps { get; set; }
 
         /// <summary>
         /// 测试用例创建人
         /// </summary>
-        public string CreateBy;
+        public string CreateBy { get; set; }
 
         /// <summary>
         /// 测试用例创建时间
         /// </summary>
-        public DateTime CreateTime;
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 测试用例更新者
         /// </summary>
-        public string UpdateBy;
+        public string UpdateBy { get; set; }
 
         /// <summary>
         /// 测试用例更新时间
         /// </summary>
-        public DateTime UpdateTime;
+        public DateTime UpdateTime { get; set; }
 
 
     }
