@@ -73,5 +73,22 @@ namespace TCMER
             var td = tnm.GetAllNodes();
             this.TreeView.ItemsSource = td;
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/yaitza/TCMer/wiki");
+        }
+
+        private void MenuItem_Click_About(object sender, RoutedEventArgs e)
+        {
+            var about = new About();
+            about.Show();
+        }
+
+        private void MenuItem_Click_DataBase(object sender, RoutedEventArgs e)
+        {
+            var settings = new Settings();
+            settings.Show();
+        }
     }
 }

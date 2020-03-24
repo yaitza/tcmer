@@ -26,16 +26,31 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
+
     <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200*"/>
             <ColumnDefinition Width="400*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="80*"></RowDefinition>
             <RowDefinition Height="15*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <Menu Name="Menu" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                <MenuItem Header="文件" FontSize="10"></MenuItem>
+                <MenuItem Header="设置" FontSize="10">
+                    <MenuItem Header="数据库设置" Click="MenuItem_Click_DataBase"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="帮助" FontSize="10">
+                    <MenuItem Header="查看帮助" Click="MenuItem_Click"  />
+                    <MenuItem Header="关于TCMER" Click="MenuItem_Click_About" />
+                </MenuItem>
+                
+            </Menu>
+        </DockPanel>
+        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
                     <TextBlock Text="{Binding DataBody}" />
@@ -43,7 +58,7 @@
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15*"></ColumnDefinition>
                 <ColumnDefinition Width="20*"></ColumnDefinition>
@@ -76,7 +91,7 @@
 
         </Grid>
 
-        <Grid Name="TestCaseDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid Name="TestCaseDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="16*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -143,6 +158,7 @@
             <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
+        
     </Grid>
 
 

@@ -39,6 +39,24 @@ namespace TCMER.Utils
             return singleConfigData.ConfigValue;
         }
 
+        public static void UpdateSingeConfigData(string configName, string configValue)
+        {
+            List<ConfigModel> updateData = new List<ConfigModel>();
+            ConfigModel cm = new ConfigModel
+            {
+                Id = 1,
+                ConfigName = configName,
+                ConfigValue = configValue
+            };
+            updateData.Add(cm);
+
+            using (var db = new LiteDatabase(ConnectionString))
+            {
+                var configData = db.GetCollection<ConfigModel>("Config");
+                configData.Update(updateData);
+            }
+        }
+
         public static void InitData()
         {
             List<ConfigModel> initData = new List<ConfigModel>();
