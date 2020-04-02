@@ -57,7 +57,7 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
-                <ContextMenu>
+                <ContextMenu x:Name="ContextMenu">
                     <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
                     <MenuItem Name="AddTestCase" Header="新增测试用例" Click="AddTestCase_Click"></MenuItem>
                     <MenuItem Name="reNameItem" Header="重命名"></MenuItem>

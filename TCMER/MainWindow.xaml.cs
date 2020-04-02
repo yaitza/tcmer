@@ -53,6 +53,7 @@ namespace TCMER
                         {
                             miItem.Visibility = Visibility.Visible;
                         }
+                        
                     }
                 }
             }
@@ -122,9 +123,12 @@ namespace TCMER
 
         private void AddTestSuite_Click(object sender, RoutedEventArgs e)
         {
-            TreeNodeModel tnm = new TreeNodeModel();
-            
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
+            TreeNodeModel tnm = new TreeNodeModel();
+            tnm.Id = System.Guid.NewGuid().ToString();
+            tnm.Depth = stnm.Depth + 1;
+            tnm.NodeType = NodeType.TestSuite;
+            
             stnm.Nodes.Add(tnm);
             
         }
