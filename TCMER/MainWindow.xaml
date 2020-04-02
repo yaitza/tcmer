@@ -56,6 +56,16 @@
                     <TextBlock Text="{Binding DataBody}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
+                    <MenuItem Name="AddTestCase" Header="新增测试用例" Click="AddTestCase_Click"></MenuItem>
+                    <MenuItem Name="reNameItem" Header="重命名"></MenuItem>
+                    <MenuItem Name="CopyItem" Header="复制"></MenuItem>
+                    <MenuItem Name="CutItem" Header="剪切"></MenuItem>
+                    <MenuItem Name="DeleteItem" Header="删除"></MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>
 
         <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >

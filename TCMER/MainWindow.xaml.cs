@@ -3,6 +3,7 @@ using HandyControl.Tools.Extension;
 using TCMER.Dao;
 using TCMER.Model;
 using System;
+using System.Windows.Controls;
 
 namespace TCMER
 {
@@ -27,8 +28,36 @@ namespace TCMER
             }
             if (this.TreeView.SelectedItem != null)
             {
-                this.ShowData((TreeNodeModel)this.TreeView.SelectedItem);
+                TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+                this.ShowData(tnm);
+
+                if (tnm.NodeType == NodeType.TestCase)
+                {
+                    ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
+
+                    foreach (var item in treeViewContextMenu.Items)
+                    {
+                        if (item is MenuItem miItem && miItem.Name.Equals("AddTestSuite"))
+                        {
+                            miItem.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                }
+                else
+                {
+                    ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
+
+                    foreach (var item in treeViewContextMenu.Items)
+                    {
+                        if (item is MenuItem miItem && miItem.Name.Equals("AddTestSuite"))
+                        {
+                            miItem.Visibility = Visibility.Visible;
+                        }
+                    }
+                }
             }
+
+
         }
 
         [Obsolete]
@@ -90,5 +119,20 @@ namespace TCMER
             var settings = new Settings();
             settings.Show();
         }
+
+        private void AddTestSuite_Click(object sender, RoutedEventArgs e)
+        {
+            TreeNodeModel tnm = new TreeNodeModel();
+            
+            TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
+            stnm.Nodes.Add(tnm);
+            
+        }
+
+        private void AddTestCase_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
