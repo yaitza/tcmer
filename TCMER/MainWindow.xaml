@@ -47,13 +47,16 @@
                     <MenuItem Header="查看帮助" Click="MenuItem_Click"  />
                     <MenuItem Header="关于TCMER" Click="MenuItem_Click_About" />
                 </MenuItem>
-                
+
             </Menu>
         </DockPanel>
         <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
-                    <TextBlock Text="{Binding DataBody}" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding DataBody}" />
+                        <TextBox x:Name="NameTreeViewItemTextBox" Text="{Binding DataBody,Mode=TwoWay}" HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed" ></TextBox>
+                    </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
@@ -168,7 +171,7 @@
             <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        
+
     </Grid>
 
 

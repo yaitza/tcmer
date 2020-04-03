@@ -28,6 +28,10 @@ namespace TCMER.Dao
             _mySqlHelper = new MySqlHelper();
         }
 
+        /// <summary>
+        /// 获取当前所有测试套以及测试用例数据，以树的形式提供
+        /// </summary>
+        /// <returns></returns>
         [Obsolete]
         public List<TreeNodeModel> GetAllNodes()
         {
@@ -84,6 +88,11 @@ namespace TCMER.Dao
             return tnmList;
         }
 
+        /// <summary>
+        /// 根据父节点id获取其子节点所有信息
+        /// </summary>
+        /// <param name="tnmList">返回子节点信息</param>
+        /// <param name="id">父节点id</param>
         [Obsolete]
         public void GetNodesByAncestor(ObservableCollection<TreeNodeModel> tnmList, String id)
         {
