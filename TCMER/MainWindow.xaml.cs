@@ -121,6 +121,7 @@ namespace TCMER
             settings.Show();
         }
 
+        [Obsolete]
         private void AddTestSuite_Click(object sender, RoutedEventArgs e)
         {
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
@@ -128,9 +129,14 @@ namespace TCMER
             tnm.Id = System.Guid.NewGuid().ToString();
             tnm.Depth = stnm.Depth + 1;
             tnm.NodeType = NodeType.TestSuite;
-            
+            tnm.CreateTime = DateTime.Now;
+            tnm.UpdateTime = DateTime.Now;
+            tnm.DataBody = System.Guid.NewGuid().ToString();
+
+
             stnm.Nodes.Add(tnm);
-            
+            TreeNodeMapper tcm = new TreeNodeMapper();
+            tcm.InsertTreeNode(tnm, stnm);
         }
 
         private void AddTestCase_Click(object sender, RoutedEventArgs e)

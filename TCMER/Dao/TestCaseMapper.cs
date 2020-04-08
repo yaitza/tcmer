@@ -17,6 +17,10 @@ namespace TCMER.Dao
 
         public const string SqlStr2 = @"SELECT ts.ID, ts.STEP_ORDER, ts.STEP_ACTIONS, ts.STEP_RESULTS, ts.CREATED_BY, ts.CREATED_TIME, ts.UPDATED_BY, ts.UPDATED_TIME FROM teststeps ts WHERE ts.TESTCASE_ID = '{0}'";
 
+
+        public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`) VALUES ('{0}', '{1}', '{2}')";
+
+
         private readonly MySqlHelper _mySqlHelper;
 
         public TestCaseMapper()
@@ -73,7 +77,6 @@ namespace TCMER.Dao
                     tsmArrayList.Add(tsm);
                 }
             }
-
 
             return tsmArrayList;
         }
