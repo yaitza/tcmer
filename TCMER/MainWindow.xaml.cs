@@ -16,7 +16,6 @@ namespace TCMER
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         [System.Obsolete]
@@ -34,6 +33,7 @@ namespace TCMER
                 if (tnm.NodeType == NodeType.TestCase)
                 {
                     ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
+                    
 
                     foreach (var item in treeViewContextMenu.Items)
                     {
@@ -74,6 +74,7 @@ namespace TCMER
                 this.TestsuiteCreateTime.Content = node.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 this.TestsuiteModifier.Content = node.UpdateBy;
                 this.TestsuiteModifyTime.Content = node.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                
             }
 
             if (node.NodeType == NodeType.TestCase)
@@ -126,12 +127,13 @@ namespace TCMER
         {
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
             TreeNodeModel tnm = new TreeNodeModel();
-            tnm.Id = System.Guid.NewGuid().ToString();
+            string guid = System.Guid.NewGuid().ToString();
+            tnm.Id = guid;
             tnm.Depth = stnm.Depth + 1;
             tnm.NodeType = NodeType.TestSuite;
             tnm.CreateTime = DateTime.Now;
             tnm.UpdateTime = DateTime.Now;
-            tnm.DataBody = System.Guid.NewGuid().ToString();
+            tnm.DataBody = guid;
 
 
             stnm.Nodes.Add(tnm);
@@ -139,9 +141,26 @@ namespace TCMER
             tcm.InsertTreeNode(tnm, stnm);
         }
 
+        [Obsolete]
         private void AddTestCase_Click(object sender, RoutedEventArgs e)
         {
+            TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
+            
+            TestCaseModel tcm = new TestCaseModel();
+            string guid = System.Guid.NewGuid().ToString();
+            tcm.Id = guid;
+            tcm.Name = guid;
 
+            TreeNodeModel tnm = new TreeNodeModel();
+            tnm.Id = guid;
+            tnm.DataBody = guid;
+            tnm.NodeType = NodeType.TestCase;
+            tnm.Depth = stnm.Depth + 1;
+
+            stnm.Nodes.Add(tnm);
+
+            TestCaseMapper tcmer = new TestCaseMapper();
+            tcmer.InsertTestCase(tcm, stnm);
         }
     }
 }

@@ -20,6 +20,8 @@ namespace TCMER.Dao
 
         public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`) VALUES ('{0}', '{1}', '{2}')";
 
+        public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
+";
 
         private readonly MySqlHelper _mySqlHelper;
 
@@ -79,6 +81,19 @@ namespace TCMER.Dao
             }
 
             return tsmArrayList;
+        }
+
+        [Obsolete]
+        public void InsertTestCase(TestCaseModel tcm, TreeNodeModel stnm)
+        {
+            string guid = System.Guid.NewGuid().ToString();
+            string SqlStr4tmp = string.Format(SqlStr4, guid, stnm.Id, tcm.Id);
+            string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.Id);
+
+            
+            _mySqlHelper.ExecuteSql(SqlStr5tmp);
+            _mySqlHelper.ExecuteSql(SqlStr4tmp);
+
         }
     }
 }
