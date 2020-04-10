@@ -140,16 +140,16 @@ namespace TCMER.Dao
                 }
                 foreach (DataRow dr in dt.Rows)
                 {
-                    TreeNodeModel tnm = new TreeNodeModel();
-                    tnm.Id = dr["ID"].ToString();
-                    tnm.DataBody = dr["NAME"].ToString();
-                    tnm.CreateBy = dr["CREATED_BY"].ToString();
-                    tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
-                    tnm.UpdateBy = dr["UPDATED_BY"].ToString();
-                    tnm.Depth = int.Parse(dr["DEPTH"].ToString());
-                    tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
-                    tnm.NodeType = NodeType.TestCase;
-                    tnmList.Add(tnm);
+                    TestCaseNodeModel tcnm = new TestCaseNodeModel();
+                    tcnm.Id = dr["ID"].ToString();
+                    tcnm.DataBody = dr["NAME"].ToString();
+                    tcnm.CreateBy = dr["CREATED_BY"].ToString();
+                    tcnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
+                    tcnm.UpdateBy = dr["UPDATED_BY"].ToString();
+                    tcnm.Depth = int.Parse(dr["DEPTH"].ToString());
+                    tcnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
+                    tcnm.NodeType = NodeType.TestCase;
+                    tnmList.Add(tcnm);
                 }
             }
 
