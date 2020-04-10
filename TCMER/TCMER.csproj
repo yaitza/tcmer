@@ -104,6 +104,7 @@
     <Compile Include="Model\ConfigModel.cs" />
     <Compile Include="Model\NodeType.cs" />
     <Compile Include="Model\TestCaseModel.cs" />
+    <Compile Include="Model\TestCaseNodeModel.cs" />
     <Compile Include="Model\TestStepModel.cs" />
     <Compile Include="Model\TreeNodeModel.cs" />
     <Compile Include="Settings.xaml.cs">

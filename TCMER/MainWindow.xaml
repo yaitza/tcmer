@@ -51,16 +51,20 @@
             </Menu>
         </DockPanel>
         <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="x:Type self:TreeNodeModel" ItemsSource="{Binding Nodes}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type model:TreeNodeModel}" ItemsSource="{Binding Nodes}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Name="TestCaseImg" Style="{StaticResource {x:Type Image}}" Source="Resource/Image/testcase.png" Width="15" Height="15" Stretch="Fill" Visibility="Collapsed"></Image>
                         <Image Name="TestSuiteImg" Source="Resource/Image/close_testsuite.png" Width="15" Height="15" Stretch="Fill"></Image>
                         <TextBlock Text="{Binding DataBody}" />
-                        <!--<TextBox x:Name="NameTreeViewItemTextBox" Text="{Binding DataBody,Mode=TwoWay}" HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed" ></TextBox>-->
                     </StackPanel>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+                <HierarchicalDataTemplate  DataType="{x:Type model:TestCaseNodeModel}" ItemsSource="{Binding Nodes}" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Name="TestCaseImg" Source="Resource/Image/testcase.png" Width="15" Height="15" Stretch="Fill"></Image>
+                        <TextBlock Text="{Binding DataBody}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="ContextMenu">
                     <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
