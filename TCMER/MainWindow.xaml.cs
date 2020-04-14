@@ -29,17 +29,41 @@ namespace TCMER
             {
                 TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
                 this.ShowData(tnm);
-
+                
                 if (tnm.NodeType == NodeType.TestCase)
                 {
                     ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
-                    
 
                     foreach (var item in treeViewContextMenu.Items)
                     {
                         if (item is MenuItem miItem && miItem.Name.Equals("AddTestSuite"))
                         {
                             miItem.Visibility = Visibility.Collapsed;
+                        }
+
+                        if (item is MenuItem mtItem && mtItem.Name.Equals("AddTestCase"))
+                        {
+                            mtItem.Visibility = Visibility.Collapsed;
+                        }
+
+                        if (item is MenuItem reItem && reItem.Name.Equals("reNameItem"))
+                        {
+                            reItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem cpItem && cpItem.Name.Equals("CopyItem"))
+                        {
+                            cpItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem cItem && cItem.Name.Equals("CutItem"))
+                        {
+                            cItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem deItem && deItem.Name.Equals("DeleteItem"))
+                        {
+                            deItem.Visibility = Visibility.Visible;
                         }
                     }
                 }
@@ -53,7 +77,31 @@ namespace TCMER
                         {
                             miItem.Visibility = Visibility.Visible;
                         }
-                        
+
+                        if (item is MenuItem mtItem && mtItem.Name.Equals("AddTestCase"))
+                        {
+                            mtItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem reItem && reItem.Name.Equals("reNameItem"))
+                        {
+                            reItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem cpItem && cpItem.Name.Equals("CopyItem"))
+                        {
+                            cpItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem cItem && cItem.Name.Equals("CutItem"))
+                        {
+                            cItem.Visibility = Visibility.Visible;
+                        }
+
+                        if (item is MenuItem deItem && deItem.Name.Equals("DeleteItem"))
+                        {
+                            deItem.Visibility = Visibility.Visible;
+                        }
                     }
                 }
             }
@@ -126,19 +174,39 @@ namespace TCMER
         private void AddTestSuite_Click(object sender, RoutedEventArgs e)
         {
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
-            TreeNodeModel tnm = new TreeNodeModel();
-            string guid = System.Guid.NewGuid().ToString();
-            tnm.Id = guid;
-            tnm.Depth = stnm.Depth + 1;
-            tnm.NodeType = NodeType.TestSuite;
-            tnm.CreateTime = DateTime.Now;
-            tnm.UpdateTime = DateTime.Now;
-            tnm.DataBody = guid;
+
+            if (stnm != null)
+            {
+                TreeNodeModel tnm = new TreeNodeModel();
+                string guid = System.Guid.NewGuid().ToString();
+                tnm.Id = guid;
+                tnm.Depth = stnm.Depth + 1;
+                tnm.NodeType = NodeType.TestSuite;
+                tnm.CreateTime = DateTime.Now;
+                tnm.UpdateTime = DateTime.Now;
+                tnm.DataBody = guid;
 
 
-            stnm.Nodes.Add(tnm);
-            TreeNodeMapper tcm = new TreeNodeMapper();
-            tcm.InsertTreeNode(tnm, stnm);
+                stnm.Nodes.Add(tnm);
+                TreeNodeMapper tcm = new TreeNodeMapper();
+                tcm.InsertTreeNode(tnm, stnm);
+            }
+            else
+            {
+                TreeNodeModel tnm = new TreeNodeModel();
+                string guid = System.Guid.NewGuid().ToString();
+                tnm.Id = guid;
+                tnm.Depth = 0;
+                tnm.NodeType = NodeType.TestSuite;
+                tnm.CreateTime = DateTime.Now;
+                tnm.UpdateTime = DateTime.Now;
+                tnm.DataBody = guid;
+
+                TreeNodeMapper tcm = new TreeNodeMapper();
+                tcm.InsertTreeNode(tnm);
+            }
+
+           
         }
 
         [Obsolete]

@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using TCMER.Annotations;
 
 namespace TCMER.Model
 {
     /// <summary>
     /// 树节点
     /// </summary>
-    public class TreeNodeModel
+    public class TreeNodeModel:INotifyPropertyChanged
     {
         public TreeNodeModel()
         {
@@ -56,6 +59,18 @@ namespace TCMER.Model
         /// </summary>
         public NodeType NodeType { get; set; }
 
+        /// <summary>
+        /// 子节点集合
+        /// </summary>
         public ObservableCollection<TreeNodeModel> Nodes { get; set; }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -107,6 +107,7 @@
     <Compile Include="Model\TestCaseNodeModel.cs" />
     <Compile Include="Model\TestStepModel.cs" />
     <Compile Include="Model\TreeNodeModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>

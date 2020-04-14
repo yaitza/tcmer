@@ -68,11 +68,11 @@
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="ContextMenu">
                     <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
-                    <MenuItem Name="AddTestCase" Header="新增测试用例" Click="AddTestCase_Click"></MenuItem>
-                    <MenuItem Name="reNameItem" Header="重命名"></MenuItem>
-                    <MenuItem Name="CopyItem" Header="复制"></MenuItem>
-                    <MenuItem Name="CutItem" Header="剪切"></MenuItem>
-                    <MenuItem Name="DeleteItem" Header="删除"></MenuItem>
+                    <MenuItem Name="AddTestCase" Header="新增测试用例" Click="AddTestCase_Click" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="CopyItem" Header="复制" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="CutItem" Header="剪切" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed"></MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>

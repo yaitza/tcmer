@@ -13,7 +13,7 @@ namespace TCMER.Dao
     class TreeNodeMapper
     {
         private const string SqlStr = @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH 
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID AND th.DEPTH = '{0}'";
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID AND th.DEPTH = '{0}' AND tn.DELETED = 0";
 
         private const string SqlStr2 = @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
                                 FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}'";
@@ -24,9 +24,11 @@ namespace TCMER.Dao
         private const string SqlStr3Ex = @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
                                 FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}'";
 
-        private const string SqlStr4 = @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `NODE_DELETED`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', NULL, 'muyi', NOW(), 'muyi', NOW())";
+        private const string SqlStr4 = @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', 'muyi', NOW(), 'muyi', NOW(), 0, {2})";
 
         private const string SqlStr5 = @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`) VALUES ('{0}', '{1}', {2})";
+
+        private const string SqlStr6 = @"SELECT `DESCENDANT` FROM `TCMer`.`treehierarchy` WHERE `DEPTH` = 1 AND ANCESTOR = '01';";
 
 
         private readonly MySqlHelper _mySqlHelper;
@@ -46,7 +48,7 @@ namespace TCMER.Dao
             List<TreeNodeModel> tnmList = new List<TreeNodeModel>();
 
             const string queryStr =
-                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 0";
+                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 0 AND tn.DELETED = 0";
             DataSet ds = _mySqlHelper.Query(queryStr);
             foreach (DataTable dt in ds.Tables)
             {
@@ -67,7 +69,7 @@ namespace TCMER.Dao
             }
 
             const string queryStrEx =
-                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 1";
+                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 1 AND tn.DELETED = 0";
             DataSet dsEx = _mySqlHelper.Query(queryStrEx);
             foreach (DataTable dt in dsEx.Tables)
             {
@@ -189,11 +191,32 @@ namespace TCMER.Dao
         [Obsolete]
         public void InsertTreeNode(TreeNodeModel tnm, TreeNodeModel stnm)
         {
-            string SqlStr4tmp = string.Format(SqlStr4, tnm.Id, tnm.DataBody);
-            string SqlStr5tmp = string.Format(SqlStr5, stnm.Id, tnm.Id, tnm.Depth);
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.DataBody, 0);
+            string sqlStr5Tmp = string.Format(SqlStr5, stnm.Id, tnm.Id, tnm.Depth);
 
-            _mySqlHelper.ExecuteSql(SqlStr4tmp);
-            _mySqlHelper.ExecuteSql(SqlStr5tmp);
+            _mySqlHelper.ExecuteSql(sqlStr4Tmp);
+            _mySqlHelper.ExecuteSql(sqlStr5Tmp);
+
+        }
+
+        [Obsolete]
+        public void InsertTreeNode(TreeNodeModel tnm)
+        {
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.DataBody, 1);
+            string sqlStr5Tmp = string.Format(SqlStr5, tnm.Id, tnm.Id, tnm.Depth);
+            _mySqlHelper.ExecuteSql(sqlStr4Tmp);
+            _mySqlHelper.ExecuteSql(sqlStr5Tmp);
+
+
+            DataSet ds = _mySqlHelper.Query(SqlStr6);
+
+            foreach (DataTable dt in ds.Tables)
+            {
+                string id = dt.Rows[0]["DESCENDANT"].ToString();
+
+                string sqlStr5TmpEx = string.Format(SqlStr5, tnm.Id, id, tnm.Depth + 1);
+                _mySqlHelper.ExecuteSql(sqlStr5TmpEx);
+            }
 
         }
 
