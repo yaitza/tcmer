@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using HandyControl.Tools.Extension;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using TCMER.Dao;
 using TCMER.Model;
-using System;
-using System.Windows.Controls;
 
 namespace TCMER
 {
@@ -21,7 +20,7 @@ namespace TCMER
         [System.Obsolete]
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (this.TreeView.SelectedItem.GetType().IsGenericType)
+            if (this.TreeView.SelectedItem != null && this.TreeView.SelectedItem.GetType().IsGenericType)
             {
                 return;
             }
@@ -105,8 +104,6 @@ namespace TCMER
                     }
                 }
             }
-
-
         }
 
         [Obsolete]
@@ -186,8 +183,8 @@ namespace TCMER
                 tnm.UpdateTime = DateTime.Now;
                 tnm.DataBody = guid;
 
-
                 stnm.Nodes.Add(tnm);
+
                 TreeNodeMapper tcm = new TreeNodeMapper();
                 tcm.InsertTreeNode(tnm, stnm);
             }
@@ -201,12 +198,13 @@ namespace TCMER
                 tnm.CreateTime = DateTime.Now;
                 tnm.UpdateTime = DateTime.Now;
                 tnm.DataBody = guid;
-
+                
                 TreeNodeMapper tcm = new TreeNodeMapper();
                 tcm.InsertTreeNode(tnm);
-            }
 
-           
+                this.TreeView.Items.Add(tcm);
+            }
+            this.TreeView.Items.Refresh();
         }
 
         [Obsolete]
@@ -229,6 +227,8 @@ namespace TCMER
 
             TestCaseMapper tcmer = new TestCaseMapper();
             tcmer.InsertTestCase(tcm, stnm);
+
+            this.TreeView.Items.Refresh();
         }
     }
 }

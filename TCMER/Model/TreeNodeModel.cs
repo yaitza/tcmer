@@ -30,6 +30,10 @@ namespace TCMER.Model
         public String DataBody { get; set; }
 
         /// <summary>
+        /// 根节点ID
+        /// </summary>
+        public string RootId { get; set; }
+        /// <summary>
         /// 创建者
         /// </summary>
         public String CreateBy { get; set; }

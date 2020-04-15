@@ -12,24 +12,39 @@ namespace TCMER.Dao
 {
     class TreeNodeMapper
     {
-        private const string SqlStr = @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH 
+        private const string SqlStr =
+            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH 
                                 FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID AND th.DEPTH = '{0}' AND tn.DELETED = 0";
 
-        private const string SqlStr2 = @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
+        private const string SqlStr2 =
+            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
                                 FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}'";
 
-        private const string SqlStr3 = @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
+        private const string SqlStr2Ex =
+            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND th.VERSIONID = '{1}'";
+
+        private const string SqlStr3 =
+            @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
                                 FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}'";
 
-        private const string SqlStr3Ex = @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
+        private const string SqlStr3Ex =
+            @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
                                 FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}'";
 
-        private const string SqlStr4 = @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', 'muyi', NOW(), 'muyi', NOW(), 0, {2})";
+        private const string SqlStr4 =
+            @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', 'muyi', NOW(), 'muyi', NOW(), 0, {2})";
 
-        private const string SqlStr5 = @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`) VALUES ('{0}', '{1}', {2})";
+        private const string SqlStr5 =
+            @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`, `VERSIONID`) VALUES ('{0}', '{1}', {2}, 'root')";
 
-        private const string SqlStr6 = @"SELECT `DESCENDANT` FROM `TCMer`.`treehierarchy` WHERE `DEPTH` = 1 AND ANCESTOR = '01';";
+        private const string SqlStr5Ex =
+            @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`, `VERSIONID`) VALUES ('{0}', '{1}', {2}, '{3}')";
 
+        private const string SqlStr6 =
+            @"SELECT `DESCENDANT` FROM `TCMer`.`treehierarchy` WHERE `DEPTH` = 1 AND ANCESTOR = '01'";
+
+        private const string SqlStr7 = @"SELECT `VFLAG` FROM `TCMer`.`treenode` WHERE ID = '{0}'";
 
         private readonly MySqlHelper _mySqlHelper;
 
@@ -62,6 +77,7 @@ namespace TCMER.Dao
                     tnm.UpdateBy = dr["UPDATED_BY"].ToString();
                     tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
                     tnm.NodeType = NodeType.TestSuite;
+                    tnm.RootId = dr["ID"].ToString();
                     GetNodesByAncestor(tnm.Nodes, tnm.Id);
 
                     tnmList.Add(tnm);
@@ -83,7 +99,8 @@ namespace TCMER.Dao
                     tnm.UpdateBy = dr["UPDATED_BY"].ToString();
                     tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
                     tnm.NodeType = NodeType.TestSuite;
-                    GetNodesByAncestor(tnm.Nodes, tnm.Id, tnm.DataBody);
+                    tnm.RootId = dr["ID"].ToString();
+                    GetNodesByAncestor(tnm.Nodes, tnm.Id, tnm.RootId);
 
                     tnmList.Add(tnm);
                 }
@@ -125,14 +142,17 @@ namespace TCMER.Dao
         /// </summary>
         /// <param name="tnmList">返回子节点信息</param>
         /// <param name="id">父节点id</param>
-        /// <param name="version">版本号</param>
+        /// <param name="rootId">根节点id</param>
         [Obsolete]
-        public void GetNodesByAncestor(ObservableCollection<TreeNodeModel> tnmList, String id, string version = null)
+        public void GetNodesByAncestor(ObservableCollection<TreeNodeModel> tnmList, string id, string rootId = null)
         {
             bool checkTestSuite = false;
             bool checkTestCase = false;
-            
-            string queryStr = string.Format(SqlStr2, id);
+
+            string queryStr = string.IsNullOrEmpty(rootId)
+                ? string.Format(SqlStr2, id)
+                : string.Format(SqlStr2Ex, id, rootId);
+            //string queryStr = string.Format(SqlStr2, id);
             DataSet ds = _mySqlHelper.Query(queryStr);
             foreach (DataTable dt in ds.Tables)
             {
@@ -141,6 +161,7 @@ namespace TCMER.Dao
                     checkTestSuite = true;
                     break;
                 }
+
                 foreach (DataRow dr in dt.Rows)
                 {
                     TreeNodeModel tnm = new TreeNodeModel();
@@ -152,13 +173,15 @@ namespace TCMER.Dao
                     tnm.Depth = int.Parse(dr["DEPTH"].ToString());
                     tnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
                     tnm.NodeType = NodeType.TestSuite;
-                    this.GetNodesByAncestor(tnm.Nodes, tnm.Id, version);
+                    tnm.RootId = rootId;
+                    this.GetNodesByAncestor(tnm.Nodes, tnm.Id, rootId);
                     tnmList.Add(tnm);
                 }
             }
 
-            string queryStr3 = string.IsNullOrEmpty(version) ? string.Format(SqlStr3, id) : string.Format(SqlStr3Ex, id, version);
-            
+            string queryStr3 = string.IsNullOrEmpty(rootId)
+                ? string.Format(SqlStr3, id)
+                : string.Format(SqlStr3Ex, id, rootId);
             DataSet ds3 = _mySqlHelper.Query(queryStr3);
             foreach (DataTable dt in ds3.Tables)
             {
@@ -167,6 +190,7 @@ namespace TCMER.Dao
                     checkTestCase = true;
                     break;
                 }
+
                 foreach (DataRow dr in dt.Rows)
                 {
                     TestCaseNodeModel tcnm = new TestCaseNodeModel();
@@ -178,6 +202,7 @@ namespace TCMER.Dao
                     tcnm.Depth = int.Parse(dr["DEPTH"].ToString());
                     tcnm.UpdateTime = DateTime.Parse(dr["UPDATED_TIME"].ToString());
                     tcnm.NodeType = NodeType.TestCase;
+                    tcnm.RootId = rootId;
                     tnmList.Add(tcnm);
                 }
             }
@@ -197,6 +222,18 @@ namespace TCMER.Dao
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
             _mySqlHelper.ExecuteSql(sqlStr5Tmp);
 
+            if (this.IsVersionTreeNode(stnm.RootId))
+            {
+                string sqlStr5ExTmp = string.Format(SqlStr5Ex, stnm.Id, tnm.Id, tnm.Depth, stnm.RootId);
+                _mySqlHelper.ExecuteSql(sqlStr5ExTmp);
+            }
+
+            // 当在版本里添加第一层级的测试套，需要添加至测试集中
+            if (tnm.Depth == 1)
+            {
+                sqlStr5Tmp = string.Format(SqlStr5, "01", tnm.Id, tnm.Depth);
+                _mySqlHelper.ExecuteSql(sqlStr5Tmp);
+            }
         }
 
         [Obsolete]
@@ -207,7 +244,6 @@ namespace TCMER.Dao
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
             _mySqlHelper.ExecuteSql(sqlStr5Tmp);
 
-
             DataSet ds = _mySqlHelper.Query(SqlStr6);
 
             foreach (DataTable dt in ds.Tables)
@@ -217,9 +253,28 @@ namespace TCMER.Dao
                 string sqlStr5TmpEx = string.Format(SqlStr5, tnm.Id, id, tnm.Depth + 1);
                 _mySqlHelper.ExecuteSql(sqlStr5TmpEx);
             }
-
         }
 
+        [Obsolete]
+        public bool IsVersionTreeNode(string id)
+        {
+            int vFlag = 0;
+            string sqlStr7Tmp = string.Format(SqlStr7, id);
+            DataSet ds = _mySqlHelper.Query(sqlStr7Tmp);
+            foreach (DataTable dt in ds.Tables)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    vFlag = int.Parse(dr["VFLAG"].ToString());
+                }
+            }
 
+            if (vFlag == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

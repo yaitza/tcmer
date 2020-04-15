@@ -34,7 +34,6 @@ namespace TCMER.Utils
         [Obsolete]
         public DataSet Query(string sqlString)
         {
-           
             DataSet ds = new DataSet();
             try
             {
@@ -51,7 +50,6 @@ namespace TCMER.Utils
                 _mySqlConnection.Close();
             }
             return ds;
-            
         }
 
         /// <summary>
@@ -62,7 +60,6 @@ namespace TCMER.Utils
         [Obsolete]
         public int ExecuteSql(string sqlString)
         {
-            
             using (MySqlCommand cmd = new MySqlCommand(sqlString, _mySqlConnection))
             {
                 try
@@ -82,7 +79,6 @@ namespace TCMER.Utils
                     _mySqlConnection.Close();
                 }
             }
-            
         }
 
         ~MySqlHelper()

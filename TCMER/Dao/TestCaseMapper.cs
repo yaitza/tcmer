@@ -18,7 +18,7 @@ namespace TCMER.Dao
         public const string SqlStr2 = @"SELECT ts.ID, ts.STEP_ORDER, ts.STEP_ACTIONS, ts.STEP_RESULTS, ts.CREATED_BY, ts.CREATED_TIME, ts.UPDATED_BY, ts.UPDATED_TIME FROM teststeps ts WHERE ts.TESTCASE_ID = '{0}'";
 
 
-        public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`) VALUES ('{0}', '{1}', '{2}')";
+        public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`, `VERSION`) VALUES ('{0}', '{1}', '{2}', '{3}')";
 
         public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
 ";
@@ -87,9 +87,8 @@ namespace TCMER.Dao
         public void InsertTestCase(TestCaseModel tcm, TreeNodeModel stnm)
         {
             string guid = System.Guid.NewGuid().ToString();
-            string SqlStr4tmp = string.Format(SqlStr4, guid, stnm.Id, tcm.Id);
+            string SqlStr4tmp = string.Format(SqlStr4, guid, stnm.Id, tcm.Id, stnm.RootId);
             string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.Id);
-
             
             _mySqlHelper.ExecuteSql(SqlStr5tmp);
             _mySqlHelper.ExecuteSql(SqlStr4tmp);
