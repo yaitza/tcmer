@@ -46,6 +46,8 @@ namespace TCMER.Dao
 
         private const string SqlStr7 = @"SELECT `VFLAG` FROM `TCMer`.`treenode` WHERE ID = '{0}'";
 
+        private const string SqlStr8 = @"UPDATE `TCMer`.`treenode` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
+
         private readonly MySqlHelper _mySqlHelper;
 
         public TreeNodeMapper()
@@ -275,6 +277,13 @@ namespace TCMER.Dao
             }
 
             return false;
+        }
+
+        [Obsolete]
+        public void UpdateTreeNodeProperty(string property, string value, string id)
+        {
+            string sqlStr8Tmp = string.Format(SqlStr8, property, value, id);
+            _mySqlHelper.ExecuteSql(sqlStr8Tmp);
         }
     }
 }

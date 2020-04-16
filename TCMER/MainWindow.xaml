@@ -100,9 +100,9 @@
             <Label Content="创建人" Grid.Column="0" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <Label Content="创建时间" Grid.Column="2" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-            <TextBox Name="TestsuiteId" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
-            <TextBox Name="TestsuiteName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
-            <TextBox Name="TestsuiteNote" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBlock Name="TestsuiteId" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+            <TextBox Name="TestsuiteName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+            <RichTextBox Name="TestsuiteNote" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <Label Name="TestsuiteModifier" Grid.Column="1" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <Label Name="TestsuiteModifyTime" Grid.Column="3" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <Label Name="TestsuiteCreator" Grid.Column="1" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
@@ -139,9 +139,9 @@
             <Label Content="用例类型" Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
             <TextBox Name="TestcaseId" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
-            <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" />
-            <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
-            <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
+            <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+            <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus"/>
+            <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
             <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
             <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
 

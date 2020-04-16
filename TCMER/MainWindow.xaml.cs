@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using TCMER.Dao;
@@ -229,6 +230,59 @@ namespace TCMER
             tcmer.InsertTestCase(tcm, stnm);
 
             this.TreeView.Items.Refresh();
+        }
+
+        private Dictionary<string, string> PorpertiesMap = new Dictionary<string, string>
+        {
+            {"TestsuiteName", "DATA_BODY"},
+            {"TestsuiteNote", "REMARK"},
+            {"TestcaseName", "NAME"},
+            {"TestcaseSummary", "SUMMARY"},
+            {"TestcasePrecondition", "PRECONDITION"},
+            {"TestCaseImportance", "IMPORTANCE"},
+            {"TestCaseType", "TYPE"}
+        };
+
+        private string StayId;
+
+        [Obsolete]
+        private void Property_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (string.IsNullOrEmpty(tb.Text))
+            {
+                return;
+            }
+            TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+            if (tnm != null)
+            {
+                // 为了当修改属性后，树刷新后，选中的节点没有；不能再次继续编辑；股临时存储对应id
+                StayId = tnm.Id;
+                switch (tb.Name)
+                {
+                    case "TestsuiteName":
+                        tnm.DataBody = tb.Text;
+                        break;
+                    case "TestcaseName":
+                        tnm.DataBody = tb.Text;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (tb.Name.Equals("TestsuiteName"))
+            {
+                TreeNodeMapper tnmm = new TreeNodeMapper();
+                tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, StayId);
+            }
+            else
+            {
+                TestCaseMapper tcm = new TestCaseMapper();
+                tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, StayId);
+            }
+            this.TreeView.Items.Refresh();
+            
         }
     }
 }
