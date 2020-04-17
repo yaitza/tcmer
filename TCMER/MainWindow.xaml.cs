@@ -304,12 +304,9 @@ namespace TCMER
                 testCaseMapper.DeleteTestCase(tnm.Id);
             }
 
-            //int index = this.TreeView.Items.IndexOf(this.TreeView.SelectedItem);
-            //this.TreeView.Items.RemoveAt(index);
             List<TreeNodeModel> tnmList = (List<TreeNodeModel>) this.TreeView.ItemsSource;
             TreeController tc = new TreeController(tnmList);
             tc.DeleteTreeNode(tnm);
-            //this.TreeView.Items.Refresh();
         }
     }
 }
