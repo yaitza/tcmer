@@ -18,19 +18,19 @@ namespace TCMER.Dao
 
         private const string SqlStr2 =
             @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}'";
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND tn.DELETED = 0";
 
         private const string SqlStr2Ex =
             @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND th.VERSIONID = '{1}'";
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND th.VERSIONID = '{1}' AND tn.DELETED = 0";
 
         private const string SqlStr3 =
             @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
-                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}'";
+                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND tc.DELETED = 0";
 
         private const string SqlStr3Ex =
             @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
-                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}'";
+                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}' AND tc.DELETED = 0";
 
         private const string SqlStr4 =
             @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', 'muyi', NOW(), 'muyi', NOW(), 0, {2})";
@@ -47,6 +47,8 @@ namespace TCMER.Dao
         private const string SqlStr7 = @"SELECT `VFLAG` FROM `TCMer`.`treenode` WHERE ID = '{0}'";
 
         private const string SqlStr8 = @"UPDATE `TCMer`.`treenode` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
+
+        private const string SqlStr9 = @"UPDATE `TCMer`.`treenode` SET `DELETED` = 1 WHERE `ID` = '{0}'";
 
         private readonly MySqlHelper _mySqlHelper;
 
@@ -284,6 +286,13 @@ namespace TCMER.Dao
         {
             string sqlStr8Tmp = string.Format(SqlStr8, property, value, id);
             _mySqlHelper.ExecuteSql(sqlStr8Tmp);
+        }
+
+        [Obsolete]
+        public void DeleteTreeNode(string id)
+        {
+            string sqlStr9Tmp = string.Format(SqlStr9, id);
+            _mySqlHelper.ExecuteSql(sqlStr9Tmp);
         }
     }
 }

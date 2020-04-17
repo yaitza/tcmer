@@ -13,7 +13,7 @@ namespace TCMER.Dao
     class TestCaseMapper
     {
         public const string SqlStr1 = @"SELECT tc.ID, tc.`NAME`,tc.SUMMARY, tc.PRECONDITION, tc.IMPORTANCE, tc.TYPE, tc.UPDATED_BY, tc.UPDATED_TIME, tc.CREATED_BY, tc.CREATED_TIME 
-                                        FROM testcase tc WHERE tc.ID = '{0}'";
+                                        FROM testcase tc WHERE tc.ID = '{0}' AND tc.DELETED = 0";
 
         public const string SqlStr2 = @"SELECT ts.ID, ts.STEP_ORDER, ts.STEP_ACTIONS, ts.STEP_RESULTS, ts.CREATED_BY, ts.CREATED_TIME, ts.UPDATED_BY, ts.UPDATED_TIME FROM teststeps ts WHERE ts.TESTCASE_ID = '{0}'";
 
@@ -23,6 +23,8 @@ namespace TCMER.Dao
         public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
 ";
         private const string SqlStr6 = @"UPDATE `TCMer`.`testcase` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
+
+        private const string SqlStr7 = @"UPDATE `TCMer`.`testcase` SET `DELETED` = 1 WHERE `ID` = '{0}'";
 
         private readonly MySqlHelper _mySqlHelper;
 
@@ -101,5 +103,13 @@ namespace TCMER.Dao
             string sqlStr6Tmp = string.Format(SqlStr6, property, value, id);
             _mySqlHelper.ExecuteSql(sqlStr6Tmp);
         }
+
+        [Obsolete]
+        public void DeleteTestCase(string id)
+        {
+            string sqlStr7Tmp = string.Format(SqlStr7, id);
+            _mySqlHelper.ExecuteSql(sqlStr7Tmp);
+        }
+
     }
 }

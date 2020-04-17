@@ -18,7 +18,5 @@ namespace TCMER.Model
 
         [Description("安全用例")]
         Security = 4
-
-
     }
 }

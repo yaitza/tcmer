@@ -72,7 +72,7 @@
                     <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed"></MenuItem>
                     <MenuItem Name="CopyItem" Header="复制" Visibility="Collapsed"></MenuItem>
                     <MenuItem Name="CutItem" Header="剪切" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed" Click="DeleteItem_OnClick"></MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>

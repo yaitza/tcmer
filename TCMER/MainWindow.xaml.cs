@@ -284,5 +284,27 @@ namespace TCMER
             this.TreeView.Items.Refresh();
             
         }
+
+        [Obsolete]
+        private void DeleteItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+            
+            if (tnm != null && tnm.NodeType == NodeType.TestSuite)
+            {
+                TreeNodeMapper tnmm = new TreeNodeMapper();
+                tnmm.DeleteTreeNode(tnm.Id);
+            }
+
+            if (tnm != null && tnm.NodeType == NodeType.TestCase)
+            {
+                TestCaseMapper testCaseMapper = new TestCaseMapper();
+                testCaseMapper.DeleteTestCase(tnm.Id);
+            }
+
+            //int index = this.TreeView.Items.IndexOf(this.TreeView.SelectedItem);
+            //this.TreeView.Items.RemoveAt(index);
+            this.TreeView.Items.Refresh();
+        }
     }
 }
