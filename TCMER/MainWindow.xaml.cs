@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using TCMER.Controller;
 using TCMER.Dao;
 using TCMER.Model;
 
@@ -304,7 +306,10 @@ namespace TCMER
 
             //int index = this.TreeView.Items.IndexOf(this.TreeView.SelectedItem);
             //this.TreeView.Items.RemoveAt(index);
-            this.TreeView.Items.Refresh();
+            List<TreeNodeModel> tnmList = (List<TreeNodeModel>) this.TreeView.ItemsSource;
+            TreeController tc = new TreeController(tnmList);
+            tc.DeleteTreeNode(tnm);
+            //this.TreeView.Items.Refresh();
         }
     }
 }

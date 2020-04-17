@@ -99,6 +99,7 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controller\TreeController.cs" />
     <Compile Include="Dao\TestCaseMapper.cs" />
     <Compile Include="Dao\TreeNodeMapper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
@@ -168,9 +169,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
