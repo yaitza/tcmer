@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TCMER.Controller;
 using TCMER.Dao;
 using TCMER.Model;
@@ -19,6 +20,8 @@ namespace TCMER
         {
             InitializeComponent();
         }
+
+        private TreeViewItem item;
 
         [System.Obsolete]
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -307,6 +310,85 @@ namespace TCMER
             List<TreeNodeModel> tnmList = (List<TreeNodeModel>) this.TreeView.ItemsSource;
             TreeController tc = new TreeController(tnmList);
             tc.DeleteTreeNode(tnm);
+        }
+
+        [Obsolete]
+        private void ReNameTB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var tempTB = FindVisualChild<TextBox>(this.item as DependencyObject);
+            var tempTxB = FindVisualChild<TextBlock>(this.item as DependencyObject);
+            tempTxB.Text = tempTB.Text;
+            tempTB.Visibility = Visibility.Collapsed;
+            tempTxB.Visibility = Visibility.Visible;
+
+            TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+            if (tnm.NodeType == NodeType.TestSuite)
+            {
+                TreeNodeMapper tnmm = new TreeNodeMapper();
+                tnmm.UpdateTreeNodeProperty("DATA_BODY", tempTB.Text, tnm.Id);
+            }
+            else
+            {
+                TestCaseMapper tcm = new TestCaseMapper();
+                tcm.UpdateTestCaseProperty("NAME", tempTB.Text, tnm.Id);
+            }
+
+
+        }
+
+        private void ReNameItem_Click(object sender, RoutedEventArgs e)
+        {
+            var tempTB = FindVisualChild<TextBox>(this.item as DependencyObject);
+            var tempTxB = FindVisualChild<TextBlock>(this.item as DependencyObject);
+            tempTxB.Visibility = Visibility.Collapsed;
+            tempTB.Visibility = Visibility.Visible;
+        }
+
+        //获取ItemTemplate内部的各种控件
+        private childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                    return (childItem)child;
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        //获取当前TreeView的TreeViewItem
+        public TreeViewItem GetParentObjectEx<TreeViewItem>(DependencyObject obj) where TreeViewItem : FrameworkElement
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            while (parent != null)
+            {
+                if (parent is TreeViewItem)
+                {
+                    return (TreeViewItem)parent;
+                }
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return null;
+        }
+
+        private void TreeView_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //此处item定义的是一个类的成员变量，是一个TreeViewItem类型
+            this.item = GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            if (this.item != null)
+            {
+                //使当前节点获得焦点
+                this.item.Focus();
+
+                //系统不再处理该操作
+                e.Handled = true;
+            }
         }
     }
 }

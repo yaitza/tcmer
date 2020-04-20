@@ -50,12 +50,13 @@
 
             </Menu>
         </DockPanel>
-        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged">
+        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type model:TreeNodeModel}" ItemsSource="{Binding Nodes}">
                     <StackPanel Orientation="Horizontal">
                         <Image Name="TestSuiteImg" Source="Resource/Image/close_testsuite.png" Width="15" Height="15" Stretch="Fill"></Image>
-                        <TextBlock Text="{Binding DataBody}" />
+                        <TextBlock Name="NameTB"  Text="{Binding DataBody,Mode=TwoWay}" />
+                        <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate  DataType="{x:Type model:TestCaseNodeModel}" ItemsSource="{Binding Nodes}" >
@@ -68,8 +69,8 @@
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="ContextMenu">
                     <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
-                    <MenuItem Name="AddTestCase" Header="新增测试用例" Click="AddTestCase_Click" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Name="AddTestCase" Header="新增测试用例" Visibility="Collapsed" Click="AddTestCase_Click"></MenuItem>
+                    <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed" Click="ReNameItem_Click"></MenuItem>
                     <MenuItem Name="CopyItem" Header="复制" Visibility="Collapsed"></MenuItem>
                     <MenuItem Name="CutItem" Header="剪切" Visibility="Collapsed"></MenuItem>
                     <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed" Click="DeleteItem_OnClick"></MenuItem>
