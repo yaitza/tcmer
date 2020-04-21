@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using TCMER.Controller;
 using TCMER.Dao;
 using TCMER.Model;
+using TCMER.Utils;
 
 namespace TCMER
 {
@@ -19,6 +22,7 @@ namespace TCMER
         public MainWindow()
         {
             InitializeComponent();
+            DisplayHelper.ShowMethod += this.OutputRichTextBox;
         }
 
         private TreeViewItem item;
@@ -254,7 +258,10 @@ namespace TCMER
             {"TestCaseType", "TYPE"}
         };
 
-        private string StayId;
+        /// <summary>
+        /// 临时存储Id
+        /// </summary>
+        private string _stayId;
 
         [Obsolete]
         private void Property_LostFocus(object sender, RoutedEventArgs e)
@@ -268,7 +275,7 @@ namespace TCMER
             if (tnm != null)
             {
                 // 为了当修改属性后，树刷新后，选中的节点没有；不能再次继续编辑；股临时存储对应id
-                StayId = tnm.Id;
+                _stayId = tnm.Id;
                 switch (tb.Name)
                 {
                     case "TestsuiteName":
@@ -285,12 +292,12 @@ namespace TCMER
             if (tb.Name.Equals("TestsuiteId") || tb.Name.Equals("TestsuiteName"))
             {
                 TreeNodeMapper tnmm = new TreeNodeMapper();
-                tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, StayId);
+                tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, _stayId);
             }
             else
             {
                 TestCaseMapper tcm = new TestCaseMapper();
-                tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, StayId);
+                tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, _stayId);
             }
             this.TreeView.Items.Refresh();
             
@@ -394,6 +401,25 @@ namespace TCMER
 
                 //系统不再处理该操作
                 e.Handled = true;
+            }
+        }
+
+        private delegate void OutputMsg(string msg, Color col);
+
+        private void OutputRichTextBox(string msg, Color color)
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(new OutputMsg(OutputRichTextBox), new object[]{msg, color});
+            }
+            else
+            {
+                Run appendText = new Run {Text = $"{DateTime.Now.ToString("u")} {msg} {Environment.NewLine}", Foreground = new SolidColorBrush(color) };
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(appendText);
+
+                this.outputRTB.Document.Blocks.Add(paragraph);
+                this.outputRTB.UpdateLayout();
             }
         }
     }

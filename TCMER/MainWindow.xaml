@@ -180,6 +180,7 @@
             <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
 
+        <RichTextBox Name="outputRTB" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></RichTextBox>
     </Grid>
 
 

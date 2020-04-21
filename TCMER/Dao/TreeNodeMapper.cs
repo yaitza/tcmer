@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using TCMER.Model;
 using TCMER.Utils;
 
@@ -84,6 +85,7 @@ namespace TCMER.Dao
                     tnm.NodeType = NodeType.TestSuite;
                     tnm.RootId = dr["ID"].ToString();
                     GetNodesByAncestor(tnm.Nodes, tnm.Id);
+                    DisplayHelper.ShowMessage(tnm.DataBody, Colors.Red);
 
                     tnmList.Add(tnm);
                 }
@@ -107,7 +109,7 @@ namespace TCMER.Dao
                     tnm.NodeType = NodeType.TestSuite;
                     tnm.RootId = dr["ID"].ToString();
                     GetNodesByAncestor(tnm.Nodes, tnm.Id, tnm.RootId);
-
+                    DisplayHelper.ShowMessage(tnm.DataBody, Colors.Red);
                     tnmList.Add(tnm);
                 }
             }
