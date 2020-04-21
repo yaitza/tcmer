@@ -62,7 +62,8 @@
                 <HierarchicalDataTemplate  DataType="{x:Type model:TestCaseNodeModel}" ItemsSource="{Binding Nodes}" >
                     <StackPanel Orientation="Horizontal">
                         <Image Name="TestCaseImg" Source="Resource/Image/testcase.png" Width="15" Height="15" Stretch="Fill"></Image>
-                        <TextBlock Text="{Binding DataBody}" />
+                        <TextBlock Name="NameTB" Text="{Binding DataBody,Mode=TwoWay}" />
+                        <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
