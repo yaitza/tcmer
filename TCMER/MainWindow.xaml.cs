@@ -119,7 +119,7 @@ namespace TCMER
             {
                 this.TestCaseDetails.Visibility = Visibility.Hidden;
                 this.NodeDetails.Visibility = Visibility.Visible;
-                this.TestsuiteId.Text = node.Id;
+                this.TestsuiteId.Text = node.OrderId;
                 this.TestsuiteName.Text = node.DataBody;
                 this.TestsuiteCreator.Content = node.CreateBy;
                 this.TestsuiteCreateTime.Content = node.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -134,7 +134,7 @@ namespace TCMER
                 this.TestCaseDetails.Visibility = Visibility.Visible;
                 TestCaseMapper tcm = new TestCaseMapper();
                 TestCaseModel tcModel = tcm.QueryTestCaseById(node.Id);
-                this.TestcaseId.Text = tcModel.Id;
+                this.TestcaseId.Text = tcModel.OrderId;
                 this.TestcaseName.Text = tcModel.Name;
                 this.TestcaseSummary.Text = tcModel.Summary;
                 this.TestcasePrecondition.Text = tcModel.Precondition;
@@ -183,6 +183,7 @@ namespace TCMER
                 TreeNodeModel tnm = new TreeNodeModel();
                 string guid = System.Guid.NewGuid().ToString();
                 tnm.Id = guid;
+                tnm.OrderId = guid;
                 tnm.Depth = stnm.Depth + 1;
                 tnm.NodeType = NodeType.TestSuite;
                 tnm.CreateTime = DateTime.Now;
@@ -199,6 +200,7 @@ namespace TCMER
                 TreeNodeModel tnm = new TreeNodeModel();
                 string guid = System.Guid.NewGuid().ToString();
                 tnm.Id = guid;
+                tnm.OrderId = guid;
                 tnm.Depth = 0;
                 tnm.NodeType = NodeType.TestSuite;
                 tnm.CreateTime = DateTime.Now;
@@ -221,10 +223,12 @@ namespace TCMER
             TestCaseModel tcm = new TestCaseModel();
             string guid = System.Guid.NewGuid().ToString();
             tcm.Id = guid;
+            tcm.OrderId = guid;
             tcm.Name = guid;
 
             TreeNodeModel tnm = new TreeNodeModel();
             tnm.Id = guid;
+            tnm.OrderId = guid;
             tnm.DataBody = guid;
             tnm.NodeType = NodeType.TestCase;
             tnm.Depth = stnm.Depth + 1;
@@ -239,6 +243,8 @@ namespace TCMER
 
         private Dictionary<string, string> PorpertiesMap = new Dictionary<string, string>
         {
+            {"TestsuiteId", "ORDERID"},
+            {"TestcaseId", "ORDERID"},
             {"TestsuiteName", "DATA_BODY"},
             {"TestsuiteNote", "REMARK"},
             {"TestcaseName", "NAME"},
@@ -276,7 +282,7 @@ namespace TCMER
                 }
             }
 
-            if (tb.Name.Equals("TestsuiteName"))
+            if (tb.Name.Equals("TestsuiteId") || tb.Name.Equals("TestsuiteName"))
             {
                 TreeNodeMapper tnmm = new TreeNodeMapper();
                 tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, StayId);

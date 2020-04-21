@@ -15,6 +15,11 @@ namespace TCMER.Model
         public string Id { get; set; }
 
         /// <summary>
+        /// 排序ID
+        /// </summary>
+        public string OrderId { get; set; }
+
+        /// <summary>
         /// 测试用例名称
         /// </summary>
         public string Name { get; set; }

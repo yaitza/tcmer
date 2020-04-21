@@ -12,15 +12,15 @@ namespace TCMER.Dao
 {
     class TestCaseMapper
     {
-        public const string SqlStr1 = @"SELECT tc.ID, tc.`NAME`,tc.SUMMARY, tc.PRECONDITION, tc.IMPORTANCE, tc.TYPE, tc.UPDATED_BY, tc.UPDATED_TIME, tc.CREATED_BY, tc.CREATED_TIME 
-                                        FROM testcase tc WHERE tc.ID = '{0}' AND tc.DELETED = 0";
+        public const string SqlStr1 = @"SELECT tc.ID, tc.ORDERID, tc.ORDERID, tc.`NAME`,tc.SUMMARY, tc.PRECONDITION, tc.IMPORTANCE, tc.TYPE, tc.UPDATED_BY, tc.UPDATED_TIME, tc.CREATED_BY, tc.CREATED_TIME 
+                                        FROM testcase tc WHERE tc.ID = '{0}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
 
         public const string SqlStr2 = @"SELECT ts.ID, ts.STEP_ORDER, ts.STEP_ACTIONS, ts.STEP_RESULTS, ts.CREATED_BY, ts.CREATED_TIME, ts.UPDATED_BY, ts.UPDATED_TIME FROM teststeps ts WHERE ts.TESTCASE_ID = '{0}'";
 
 
         public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`, `VERSION`) VALUES ('{0}', '{1}', '{2}', '{3}')";
 
-        public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
+        public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `ORDERID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', '{2}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
 ";
         private const string SqlStr6 = @"UPDATE `TCMer`.`testcase` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
 
@@ -43,6 +43,7 @@ namespace TCMER.Dao
                 foreach (DataRow dr in dt.Rows)
                 {
                     tcm.Id = dr["ID"].ToString();
+                    tcm.OrderId = dr["ORDERID"].ToString();
                     tcm.Name = dr["NAME"].ToString();
                     tcm.Summary = dr["SUMMARY"].ToString();
                     tcm.Precondition = dr["PRECONDITION"].ToString();
@@ -91,7 +92,7 @@ namespace TCMER.Dao
         {
             string guid = System.Guid.NewGuid().ToString();
             string SqlStr4tmp = string.Format(SqlStr4, guid, stnm.Id, tcm.Id, stnm.RootId);
-            string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.Id);
+            string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.OrderId, tcm.Id);
             
             _mySqlHelper.ExecuteSql(SqlStr5tmp);
             _mySqlHelper.ExecuteSql(SqlStr4tmp);

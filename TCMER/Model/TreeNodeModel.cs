@@ -22,12 +22,17 @@ namespace TCMER.Model
         /// <summary>
         /// 树节点ID
         /// </summary>
-        public String Id { get; set; }
+        public string Id { get; set; }
+
+        /// <summary>
+        /// 排序ID
+        /// </summary>
+        public string OrderId { get; set; }
 
         /// <summary>
         /// 树节点内容
         /// </summary>
-        public String DataBody { get; set; }
+        public string DataBody { get; set; }
 
         /// <summary>
         /// 根节点ID
@@ -36,7 +41,7 @@ namespace TCMER.Model
         /// <summary>
         /// 创建者
         /// </summary>
-        public String CreateBy { get; set; }
+        public string CreateBy { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -46,7 +51,7 @@ namespace TCMER.Model
         /// <summary>
         /// 更新者
         /// </summary>
-        public String UpdateBy { get; set; }
+        public string UpdateBy { get; set; }
 
         /// <summary>
         /// 更新时间
