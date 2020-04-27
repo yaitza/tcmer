@@ -103,6 +103,7 @@
     <Compile Include="Dao\TestCaseMapper.cs" />
     <Compile Include="Dao\TreeNodeMapper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
+    <Compile Include="Model\ExecuteResult.cs" />
     <Compile Include="Model\NodeType.cs" />
     <Compile Include="Model\TestCaseModel.cs" />
     <Compile Include="Model\TestCaseNodeModel.cs" />

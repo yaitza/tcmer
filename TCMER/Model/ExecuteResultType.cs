@@ -4,13 +4,16 @@ namespace TCMER.Model
 {
     public enum ExecuteResultType
     {
+        [Description("未执行")]
+        None = 0,
+
         [Description("通过")]
-        Passed,
+        Passed = 1,
 
         [Description("失败")]
-        Failed,
+        Failed = 2,
 
         [Description("阻断")]
-        Blocked
+        Blocked = 3
     }
 }

@@ -149,6 +149,14 @@ namespace TCMER
                 this.TestCaseModifier.Content = tcModel.UpdateBy;
                 this.TestCaseModifyTime.Content = tcModel.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 this.TestCaseSteps.ItemsSource = tcModel.TestSteps;
+
+                ExecuteResult erModel = tcm.QueryResultById(node.Id, node.RootId);
+                if(erModel != null)
+                {
+                    this.TestCaseExecuteResult.SelectedItem = erModel.result;
+                    this.TestCaseExecutor.Content = erModel.CreateBy;
+                    this.TestCaseExecuteTime.Content = erModel.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
+                }
             }
         }
 
@@ -420,6 +428,25 @@ namespace TCMER
 
                 this.outputRTB.Document.Blocks.Add(paragraph);
                 this.outputRTB.UpdateLayout();
+            }
+        }
+
+        [Obsolete]
+        private void TestCaseExecuteResult_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // 树节点选中变更，会触发该事件
+            if (e.RemovedItems.Count > 0 && e.Source is ComboBox)
+            {
+                TreeNodeModel tnModel = this.TreeView.SelectedItem as TreeNodeModel;
+
+                ExecuteResult erModel = new ExecuteResult();
+                erModel.result = (ExecuteResultType)TestCaseExecuteResult.SelectedIndex;
+                // TODO 未创建用户权限
+                erModel.CreateBy = "TODO";
+
+                TestCaseMapper tcm = new TestCaseMapper();
+                tcm.InsertTestCaseExecuteResult(tnModel, erModel);
+                
             }
         }
     }

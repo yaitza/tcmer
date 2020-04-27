@@ -31,7 +31,7 @@ namespace TCMER.Dao
 
         private const string SqlStr3Ex =
             @"SELECT tc.ID,tc.ORDERID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
-                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
+                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSIONID = '{1}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
 
         private const string SqlStr4 =
             @"INSERT INTO `TCMer`.`treenode`(`ID`, `ORDERID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', '{2}', 'muyi', NOW(), 'muyi', NOW(), 0, {3})";

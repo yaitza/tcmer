@@ -45,6 +45,11 @@ namespace TCMER.Model
         public TestCaseType TestCaseType { get; set; }
 
         /// <summary>
+        /// 测试用例执行结果
+        /// </summary>
+        public ExecuteResultType Result { get; set; }
+
+        /// <summary>
         /// 测试用例步骤
         /// </summary>
         public ObservableCollection<TestStepModel> TestSteps { get; set; }

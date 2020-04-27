@@ -18,13 +18,17 @@ namespace TCMER.Dao
         public const string SqlStr2 = @"SELECT ts.ID, ts.STEP_ORDER, ts.STEP_ACTIONS, ts.STEP_RESULTS, ts.CREATED_BY, ts.CREATED_TIME, ts.UPDATED_BY, ts.UPDATED_TIME FROM teststeps ts WHERE ts.TESTCASE_ID = '{0}'";
 
 
-        public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`, `VERSION`) VALUES ('{0}', '{1}', '{2}', '{3}')";
+        public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`, `VERSIONID`) VALUES ('{0}', '{1}', '{2}', '{3}')";
 
         public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `ORDERID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', '{2}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
 ";
         private const string SqlStr6 = @"UPDATE `TCMer`.`testcase` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
 
         private const string SqlStr7 = @"UPDATE `TCMer`.`testcase` SET `DELETED` = 1 WHERE `ID` = '{0}'";
+
+        private const string SqlStr8 = @"SELECT RESULT,CREATED_BY,CREATED_TIME FROM TCMer.case_result WHERE CASE_ID = '{0}' AND VERSIONID = '{1}' ORDER BY ID DESC LIMIT 1";
+
+        private const string SqlStr9 = @"INSERT INTO `TCMer`.`case_result`(`CASE_ID`, `RESULT`, `CREATED_BY`, `VERSIONID`) VALUES  ('{0}', {1}, '{2}', '{3}')";
 
         private readonly MySqlHelper _mySqlHelper;
 
@@ -110,6 +114,32 @@ namespace TCMER.Dao
         {
             string sqlStr7Tmp = string.Format(SqlStr7, id);
             _mySqlHelper.ExecuteSql(sqlStr7Tmp);
+        }
+
+        [Obsolete]
+        public ExecuteResult QueryResultById(string testcaseId, string versionid)
+        {
+            DataSet ds = _mySqlHelper.Query(string.Format(SqlStr8, testcaseId, versionid));
+            ExecuteResult er = new ExecuteResult();
+            foreach (DataTable dt in ds.Tables)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    er.result = (ExecuteResultType)int.Parse(dr["RESULT"].ToString());                    
+                    er.CreateBy = dr["CREATED_BY"].ToString();
+                    er.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
+                }
+            }
+
+            return er;
+        }
+
+        [Obsolete]
+        public void InsertTestCaseExecuteResult(TreeNodeModel tnModel ,ExecuteResult erModel)
+        {
+            string SqlStr9tmp = string.Format(SqlStr9, tnModel.Id, (int)erModel.result, erModel.CreateBy, tnModel.RootId);
+
+            _mySqlHelper.ExecuteSql(SqlStr9tmp);
         }
 
     }
