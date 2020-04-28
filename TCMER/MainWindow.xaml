@@ -173,7 +173,7 @@
             <Label Name="TestCaseExecutor" Content="TestCaseExecutor" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseExecuteTime" Content="TestCaseExecuteTime" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseExecuteType" Content="TestCaseTestCaseType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}" SelectionChanged="TestCaseExecuteResult_SelectionChanged" />
+            <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}" DropDownClosed="TestCaseExecuteResult_DropDownClosed" />
             <Label Name="TestCaseModifier"  Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseModifyTime" Content="TestCaseModifyTime" Grid.Column="5" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

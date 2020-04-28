@@ -432,22 +432,17 @@ namespace TCMER
         }
 
         [Obsolete]
-        private void TestCaseExecuteResult_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TestCaseExecuteResult_DropDownClosed(object sender, EventArgs e)
         {
-            // 树节点选中变更，会触发该事件
-            if (e.RemovedItems.Count > 0 && e.Source is ComboBox)
-            {
-                TreeNodeModel tnModel = this.TreeView.SelectedItem as TreeNodeModel;
+            TreeNodeModel tnModel = this.TreeView.SelectedItem as TreeNodeModel;
 
-                ExecuteResult erModel = new ExecuteResult();
-                erModel.result = (ExecuteResultType)TestCaseExecuteResult.SelectedIndex;
-                // TODO 未创建用户权限
-                erModel.CreateBy = "TODO";
+            ExecuteResult erModel = new ExecuteResult();
+            erModel.result = (ExecuteResultType)TestCaseExecuteResult.SelectedIndex;
+            // TODO 未创建用户权限
+            erModel.CreateBy = "TODO";
 
-                TestCaseMapper tcm = new TestCaseMapper();
-                tcm.InsertTestCaseExecuteResult(tnModel, erModel);
-                
-            }
+            TestCaseMapper tcm = new TestCaseMapper();
+            tcm.InsertTestCaseExecuteResult(tnModel, erModel);
         }
     }
 }

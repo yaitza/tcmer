@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using TCMER.Model;
 using TCMER.Utils;
 
@@ -13,27 +14,27 @@ namespace TCMER.Dao
     class TreeNodeMapper
     {
         private const string SqlStr =
-            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH 
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID AND th.DEPTH = '{0}' AND tn.DELETED = 0";
+            @"SELECT tn.ID,tn.ORDERID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH 
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID AND th.DEPTH = '{0}' AND tn.DELETED = 0 ORDER BY tn.ORDERID";
 
         private const string SqlStr2 =
-            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND tn.DELETED = 0";
+            @"SELECT tn.ID,tn.ORDERID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND tn.DELETED = 0 ORDER BY tn.ORDERID";
 
         private const string SqlStr2Ex =
-            @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
-                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND th.VERSIONID = '{1}' AND tn.DELETED = 0";
+            @"SELECT tn.ID,tn.ORDERID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH
+                                FROM treenode tn LEFT JOIN treehierarchy th ON th.DESCENDANT = tn.ID WHERE th.ANCESTOR = '{0}' AND th.DESCENDANT != '{0}' AND th.VERSIONID = '{1}' AND tn.DELETED = 0 ORDER BY tn.ORDERID";
 
         private const string SqlStr3 =
-            @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
-                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND tc.DELETED = 0";
+            @"SELECT tc.ID,tc.ORDERID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
+                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
 
         private const string SqlStr3Ex =
-            @"SELECT tc.ID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
-                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSION = '{1}' AND tc.DELETED = 0";
+            @"SELECT tc.ID,tc.ORDERID,tc.NAME,tc.UPDATED_BY,tc.UPDATED_TIME,tc.CREATED_BY,tc.CREATED_TIME,0 AS `DEPTH` 
+                                FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSIONID = '{1}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
 
         private const string SqlStr4 =
-            @"INSERT INTO `TCMer`.`treenode`(`ID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', 'muyi', NOW(), 'muyi', NOW(), 0, {2})";
+            @"INSERT INTO `TCMer`.`treenode`(`ID`, `ORDERID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', '{2}', 'muyi', NOW(), 'muyi', NOW(), 0, {3})";
 
         private const string SqlStr5 =
             @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`, `VERSIONID`) VALUES ('{0}', '{1}', {2}, 'root')";
@@ -67,7 +68,7 @@ namespace TCMER.Dao
             List<TreeNodeModel> tnmList = new List<TreeNodeModel>();
 
             const string queryStr =
-                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 0 AND tn.DELETED = 0";
+                @"SELECT tn.ID,tn.ORDERID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 0 AND tn.DELETED = 0";
             DataSet ds = _mySqlHelper.Query(queryStr);
             foreach (DataTable dt in ds.Tables)
             {
@@ -75,6 +76,7 @@ namespace TCMER.Dao
                 {
                     TreeNodeModel tnm = new TreeNodeModel();
                     tnm.Id = dr["ID"].ToString();
+                    tnm.OrderId = dr["ORDERID"].ToString();
                     tnm.DataBody = dr["DATA_BODY"].ToString();
                     tnm.CreateBy = dr["CREATED_BY"].ToString();
                     tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
@@ -83,13 +85,12 @@ namespace TCMER.Dao
                     tnm.NodeType = NodeType.TestSuite;
                     tnm.RootId = dr["ID"].ToString();
                     GetNodesByAncestor(tnm.Nodes, tnm.Id);
-
                     tnmList.Add(tnm);
                 }
             }
 
             const string queryStrEx =
-                @"SELECT tn.ID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 1 AND tn.DELETED = 0";
+                @"SELECT tn.ID,tn.ORDERID,tn.DATA_BODY,tn.UPDATED_BY,tn.UPDATED_TIME,tn.CREATED_BY,tn.CREATED_TIME,th.DEPTH FROM treenode tn LEFT JOIN treehierarchy th ON th.ANCESTOR = tn.ID WHERE th.DEPTH = 0 AND tn.VFLAG = 1 AND tn.DELETED = 0";
             DataSet dsEx = _mySqlHelper.Query(queryStrEx);
             foreach (DataTable dt in dsEx.Tables)
             {
@@ -97,6 +98,7 @@ namespace TCMER.Dao
                 {
                     TreeNodeModel tnm = new TreeNodeModel();
                     tnm.Id = dr["ID"].ToString();
+                    tnm.OrderId = dr["ORDERID"].ToString();
                     tnm.DataBody = dr["DATA_BODY"].ToString();
                     tnm.CreateBy = dr["CREATED_BY"].ToString();
                     tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
@@ -105,7 +107,6 @@ namespace TCMER.Dao
                     tnm.NodeType = NodeType.TestSuite;
                     tnm.RootId = dr["ID"].ToString();
                     GetNodesByAncestor(tnm.Nodes, tnm.Id, tnm.RootId);
-
                     tnmList.Add(tnm);
                 }
             }
@@ -127,6 +128,7 @@ namespace TCMER.Dao
                 {
                     TreeNodeModel tnm = new TreeNodeModel();
                     tnm.Id = dr["ID"].ToString();
+                    tnm.OrderId = dr["ORDERID"].ToString();
                     tnm.DataBody = dr["DATA_BODY"].ToString();
                     tnm.CreateBy = dr["CREATED_BY"].ToString();
                     tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
@@ -170,6 +172,7 @@ namespace TCMER.Dao
                 {
                     TreeNodeModel tnm = new TreeNodeModel();
                     tnm.Id = dr["ID"].ToString();
+                    tnm.OrderId = dr["ORDERID"].ToString();
                     tnm.DataBody = dr["DATA_BODY"].ToString();
                     tnm.CreateBy = dr["CREATED_BY"].ToString();
                     tnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
@@ -199,6 +202,7 @@ namespace TCMER.Dao
                 {
                     TestCaseNodeModel tcnm = new TestCaseNodeModel();
                     tcnm.Id = dr["ID"].ToString();
+                    tcnm.OrderId = dr["ORDERID"].ToString();
                     tcnm.DataBody = dr["NAME"].ToString();
                     tcnm.CreateBy = dr["CREATED_BY"].ToString();
                     tcnm.CreateTime = DateTime.Parse(dr["CREATED_TIME"].ToString());
@@ -220,7 +224,7 @@ namespace TCMER.Dao
         [Obsolete]
         public void InsertTreeNode(TreeNodeModel tnm, TreeNodeModel stnm)
         {
-            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.DataBody, 0);
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, 0);
             string sqlStr5Tmp = string.Format(SqlStr5, stnm.Id, tnm.Id, tnm.Depth);
 
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
@@ -243,7 +247,7 @@ namespace TCMER.Dao
         [Obsolete]
         public void InsertTreeNode(TreeNodeModel tnm)
         {
-            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.DataBody, 1);
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, 1);
             string sqlStr5Tmp = string.Format(SqlStr5, tnm.Id, tnm.Id, tnm.Depth);
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
             _mySqlHelper.ExecuteSql(sqlStr5Tmp);
