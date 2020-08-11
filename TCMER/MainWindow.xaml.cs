@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -38,7 +39,7 @@ namespace TCMER
             {
                 TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
                 this.ShowData(tnm);
-                
+
                 if (tnm.NodeType == NodeType.TestCase)
                 {
                     ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
@@ -129,7 +130,7 @@ namespace TCMER
                 this.TestsuiteCreateTime.Content = node.CreateTime.ToString("yyyy-MM-dd HH:mm:ss");
                 this.TestsuiteModifier.Content = node.UpdateBy;
                 this.TestsuiteModifyTime.Content = node.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss");
-                
+
             }
 
             if (node.NodeType == NodeType.TestCase)
@@ -151,7 +152,7 @@ namespace TCMER
                 this.TestCaseSteps.ItemsSource = tcModel.TestSteps;
 
                 ExecuteResult erModel = tcm.QueryResultById(node.Id, node.RootId);
-                if(erModel != null)
+                if (erModel != null)
                 {
                     this.TestCaseExecuteResult.SelectedItem = erModel.result;
                     this.TestCaseExecutor.Content = erModel.CreateBy;
@@ -163,9 +164,17 @@ namespace TCMER
         [Obsolete]
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TreeNodeMapper tnm = new TreeNodeMapper();
-            var td = tnm.GetAllNodes();
-            this.TreeView.ItemsSource = td;
+            try
+            {
+                TreeNodeMapper tnm = new TreeNodeMapper();
+                var td = tnm.GetAllNodes();
+                this.TreeView.ItemsSource = td;
+            }
+            catch(Exception ex)
+            {
+                DisplayHelper.ShowMessage(ex.Message, Color.FromRgb(255, 0, 0));
+                return;
+            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -218,7 +227,7 @@ namespace TCMER
                 tnm.CreateTime = DateTime.Now;
                 tnm.UpdateTime = DateTime.Now;
                 tnm.DataBody = guid;
-                
+
                 TreeNodeMapper tcm = new TreeNodeMapper();
                 tcm.InsertTreeNode(tnm);
 
@@ -231,7 +240,7 @@ namespace TCMER
         private void AddTestCase_Click(object sender, RoutedEventArgs e)
         {
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
-            
+
             TestCaseModel tcm = new TestCaseModel();
             string guid = System.Guid.NewGuid().ToString();
             tcm.Id = guid;
@@ -308,14 +317,14 @@ namespace TCMER
                 tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, _stayId);
             }
             this.TreeView.Items.Refresh();
-            
+
         }
 
         [Obsolete]
         private void DeleteItem_OnClick(object sender, RoutedEventArgs e)
         {
             TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
-            
+
             if (tnm != null && tnm.NodeType == NodeType.TestSuite)
             {
                 TreeNodeMapper tnmm = new TreeNodeMapper();
@@ -328,7 +337,7 @@ namespace TCMER
                 testCaseMapper.DeleteTestCase(tnm.Id);
             }
 
-            List<TreeNodeModel> tnmList = (List<TreeNodeModel>) this.TreeView.ItemsSource;
+            List<TreeNodeModel> tnmList = (List<TreeNodeModel>)this.TreeView.ItemsSource;
             TreeController tc = new TreeController(tnmList);
             tc.DeleteTreeNode(tnm);
         }
@@ -418,11 +427,11 @@ namespace TCMER
         {
             if (!Dispatcher.CheckAccess())
             {
-                Dispatcher.Invoke(new OutputMsg(OutputRichTextBox), new object[]{msg, color});
+                Dispatcher.Invoke(new OutputMsg(OutputRichTextBox), new object[] { msg, color });
             }
             else
             {
-                Run appendText = new Run {Text = $"{DateTime.Now.ToString("u")} {msg} {Environment.NewLine}", Foreground = new SolidColorBrush(color) };
+                Run appendText = new Run { Text = $"{DateTime.Now.ToString("u")} {msg} {Environment.NewLine}", Foreground = new SolidColorBrush(color) };                
                 Paragraph paragraph = new Paragraph();
                 paragraph.Inlines.Add(appendText);
 
@@ -443,6 +452,89 @@ namespace TCMER
 
             TestCaseMapper tcm = new TestCaseMapper();
             tcm.InsertTestCaseExecuteResult(tnModel, erModel);
+        }
+
+        [Obsolete]
+        private void Login_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(string.IsNullOrEmpty(this.UserNametb.Text) || string.IsNullOrEmpty(this.UserPwdpb.Password))
+            {
+                this.LoginMessage.Text = "请输入完整";
+                return;
+            }
+            UserModel um = new UserModel();
+            try
+            {
+                um = new UserController().Login(this.UserNametb.Text.Trim(), this.UserPwdpb.Password);
+            }
+            catch(Exception ex)
+            {
+                this.LoginMessage.Text = ex.Message;
+                return;
+            }
+
+            if (um == null || um is null || um.Name is null)
+            {
+                this.LoginMessage.Text = "请确认用户名和密码正确";
+            }
+            else
+            {
+                this.LoginUI.Visibility = Visibility.Hidden;
+                this.MainWindowUI.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void CancelRegister_Click(object sender, RoutedEventArgs e)
+        {
+            this.registeredUI.Visibility = Visibility.Hidden;
+            this.LoginUI.Visibility = Visibility.Visible;
+        }
+
+        [Obsolete]
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.UserName.Text.Trim()))
+            {
+                this.RegisterMessage.Text = "请输入用户名";
+                return;
+            }
+
+            if(string.IsNullOrEmpty(this.UserPassWord.Password) || string.IsNullOrEmpty(this.SecondUserPassWord.Password) || !this.UserPassWord.Password.Equals(this.SecondUserPassWord.Password))
+            {
+                this.RegisterMessage.Text = "请输入正确的密码";
+                return;
+            }
+
+            UserModel um = new UserModel();
+            um.Name = this.UserName.Text.Trim();
+            um.PassWord = this.UserPassWord.Password;
+            um.TelePhone = this.UserTelePhone.Text.Trim();
+            um.Email = this.UserEmail.Text.Trim();
+            um.remark = this.UserRemark.Text.Trim();
+
+            UserController userController = new UserController();
+
+            try
+            {
+                int result = userController.Register(um);
+                if(result > 0)
+                {
+                    this.RegisterMessage.Text = "注册成功，请登录。";
+                    Thread.Sleep(2000);
+                    this.registeredUI.Visibility = Visibility.Hidden;
+                    this.LoginUI.Visibility = Visibility.Visible;
+                }
+            }
+            catch(Exception ex)
+            {
+                this.RegisterMessage.Text = ex.Message;
+            }
+        }
+
+        private void TextBlock_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.LoginUI.Visibility = Visibility.Hidden;
+            this.registeredUI.Visibility = Visibility.Visible;
         }
     }
 }

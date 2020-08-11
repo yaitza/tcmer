@@ -27,160 +27,221 @@
         </ObjectDataProvider>
     </Window.Resources>
 
-    <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200*"/>
-            <ColumnDefinition Width="400*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="80*"></RowDefinition>
-            <RowDefinition Height="15*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-            <Menu Name="Menu" HorizontalAlignment="Left"  VerticalAlignment="Top" >
-                <MenuItem Header="文件" FontSize="10"></MenuItem>
-                <MenuItem Header="设置" FontSize="10">
-                    <MenuItem Header="数据库设置" Click="MenuItem_Click_DataBase"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="帮助" FontSize="10">
-                    <MenuItem Header="查看帮助" Click="MenuItem_Click"  />
-                    <MenuItem Header="关于TCMER" Click="MenuItem_Click_About" />
-                </MenuItem>
-
-            </Menu>
-        </DockPanel>
-        <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown">
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type model:TreeNodeModel}" ItemsSource="{Binding Nodes}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Name="TestSuiteImg" Source="Resource/Image/close_testsuite.png" Width="15" Height="15" Stretch="Fill"></Image>
-                        <TextBlock Name="NameTB"  Text="{Binding DataBody,Mode=TwoWay}" />
-                        <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
+    <Grid Margin="5,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid Name="LoginUI" Background="AliceBlue" Visibility="Visible">
+            <Grid Width="300" Height="400">
+                <Border CornerRadius="3" HorizontalAlignment="Center" Width="290" Height="350" VerticalAlignment="Center" Background="White" Margin="0 35 0 0">
+                    <StackPanel Margin="0 50 0 0">
+                        <TextBlock Text="请登录您的账号" HorizontalAlignment="Center" Foreground="Gray" Margin="30" FontSize="21" FontFamily="Champagne &amp; Limousines" FontWeight="SemiBold"/>
+                        <TextBox Name ="UserNametb" Margin="20 10" Text="用户名"/>
+                        <PasswordBox Margin="20 10" Name="UserPwdpb" />
+                        <Grid Margin="20 0">
+                            <CheckBox Content="记住我" HorizontalAlignment="Left"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="忘记密码?" Foreground="#FF2259D1" HorizontalAlignment="Right" Margin="0,0,5,0" Cursor="Hand"/>
+                                <TextBlock Text="注册" Foreground="#FF2259D1" HorizontalAlignment="Right" Cursor="Hand" PreviewMouseDown="TextBlock_PreviewMouseDown" />
+                            </StackPanel>
+                        </Grid>
+                        <Button Content="登录" Margin="20 10" Click="Login_Button_Click"/>
+                        <TextBlock x:Name="LoginMessage" Foreground="Red" HorizontalAlignment="Left" Margin="20,10,0,0" />
                     </StackPanel>
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate  DataType="{x:Type model:TestCaseNodeModel}" ItemsSource="{Binding Nodes}" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Name="TestCaseImg" Source="Resource/Image/testcase.png" Width="15" Height="15" Stretch="Fill"></Image>
-                        <TextBlock Name="NameTB" Text="{Binding DataBody,Mode=TwoWay}" />
-                        <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.Resources>
-            <TreeView.ContextMenu>
-                <ContextMenu x:Name="ContextMenu">
-                    <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
-                    <MenuItem Name="AddTestCase" Header="新增测试用例" Visibility="Collapsed" Click="AddTestCase_Click"></MenuItem>
-                    <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed" Click="ReNameItem_Click"></MenuItem>
-                    <MenuItem Name="CopyItem" Header="复制" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Name="CutItem" Header="剪切" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed" Click="DeleteItem_OnClick"></MenuItem>
-                </ContextMenu>
-            </TreeView.ContextMenu>
-        </TreeView>
-
-        <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="15*"></ColumnDefinition>
-                <ColumnDefinition Width="20*"></ColumnDefinition>
-                <ColumnDefinition Width="15*"></ColumnDefinition>
-                <ColumnDefinition Width="20*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="100*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Content="测试用例集编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="测试用例集名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="测试用例集备注" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="修改人" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="修改时间" Grid.Column="2" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="创建人" Grid.Column="0" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="创建时间" Grid.Column="2" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-            <TextBox Name="TestsuiteId" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
-            <TextBox Name="TestsuiteName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
-            <RichTextBox Name="TestsuiteNote" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Name="TestsuiteModifier" Grid.Column="1" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Name="TestsuiteModifyTime" Grid.Column="3" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Name="TestsuiteCreator" Grid.Column="1" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Name="TestsuiteCreateTime" Grid.Column="3" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
+                </Border>
+                <Border Width="70" Height="70" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" CornerRadius="50">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" ShadowDepth="0"/>
+                    </Border.Effect>
+                </Border>
+            </Grid>
         </Grid>
-
-        <Grid Name="TestCaseDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid Name="registeredUI" Background="AliceBlue" Visibility="Hidden">
+            <Grid Width="300" Height="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="用户名: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="0"/>
+                <TextBox x:Name="UserName" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"  Margin="5"></TextBox>
+                <TextBlock Text="密码: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="1"/>
+                <PasswordBox x:Name="UserPassWord" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="5"></PasswordBox>
+                <TextBlock Text="确认密码: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="2"/>
+                <PasswordBox x:Name="SecondUserPassWord" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="5"></PasswordBox>
+                <TextBlock Text="电话号码: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="3"/>
+                <TextBox x:Name="UserTelePhone" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="5"></TextBox>
+                <TextBlock Text="邮箱: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="4"/>
+                <TextBox x:Name="UserEmail" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Margin="5"></TextBox>
+                <TextBlock Text="备注: " HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Grid.Column="0" Grid.Row="5"/>
+                <TextBox x:Name="UserRemark" Grid.Column="1" Grid.Row="5" Grid.RowSpan="2" Margin="5" />
+                <Button x:Name="CancelRegister" Content="取消" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Margin="40,0,0,0" Click="CancelRegister_Click"/>
+                <Button x:Name="Register" Content="注册" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,40,0" Background="ForestGreen" Click="Register_Click"/>
+                <TextBlock x:Name="RegisterMessage" Foreground="Red" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Margin="5,0,0,0"/>
+            </Grid>
+        </Grid>
+        <Grid Name="MainWindowUI" Visibility="Hidden">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="16*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="20*"></ColumnDefinition>
-                <ColumnDefinition Width="16*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="20*"></ColumnDefinition>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="400*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="50*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="80*"></RowDefinition>
+                <RowDefinition Height="15*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Content="测试用例编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="测试用例名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="摘要" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="前提" Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="重要性" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            <Label Content="用例类型" Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                <Menu Name="Menu" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+                    <MenuItem Header="文件" FontSize="10"></MenuItem>
+                    <MenuItem Header="设置" FontSize="10">
+                        <MenuItem Header="数据库设置" Click="MenuItem_Click_DataBase"></MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="帮助" FontSize="10">
+                        <MenuItem Header="查看帮助" Click="MenuItem_Click"  />
+                        <MenuItem Header="关于TCMER" Click="MenuItem_Click_About" />
+                    </MenuItem>
 
-            <TextBox Name="TestcaseId" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
-            <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
-            <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus"/>
-            <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
-            <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
-            <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
+                </Menu>
+            </DockPanel>
+            <TreeView Name="TreeView" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedItemChanged="TreeView_SelectedItemChanged" PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type model:TreeNodeModel}" ItemsSource="{Binding Nodes}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Name="TestSuiteImg" Source="Resource/Image/close_testsuite.png" Width="15" Height="15" Stretch="Fill"></Image>
+                            <TextBlock Name="NameTB"  Text="{Binding DataBody,Mode=TwoWay}" />
+                            <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate  DataType="{x:Type model:TestCaseNodeModel}" ItemsSource="{Binding Nodes}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Name="TestCaseImg" Source="Resource/Image/testcase.png" Width="15" Height="15" Stretch="Fill"></Image>
+                            <TextBlock Name="NameTB" Text="{Binding DataBody,Mode=TwoWay}" />
+                            <TextBox Name="reNameTB" Text="{Binding DataBody,Mode=TwoWay}" Visibility="Collapsed" LostFocus="ReNameTB_LostFocus" ></TextBox>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <TreeView.ContextMenu>
+                    <ContextMenu x:Name="ContextMenu">
+                        <MenuItem Name="AddTestSuite" Header="新增测试套" Click="AddTestSuite_Click"></MenuItem>
+                        <MenuItem Name="AddTestCase" Header="新增测试用例" Visibility="Collapsed" Click="AddTestCase_Click"></MenuItem>
+                        <MenuItem Name="reNameItem" Header="重命名" Visibility="Collapsed" Click="ReNameItem_Click"></MenuItem>
+                        <MenuItem Name="CopyItem" Header="复制" Visibility="Collapsed"></MenuItem>
+                        <MenuItem Name="CutItem" Header="剪切" Visibility="Collapsed"></MenuItem>
+                        <MenuItem Name="DeleteItem" Header="删除" Visibility="Collapsed" Click="DeleteItem_OnClick"></MenuItem>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+            </TreeView>
 
-            <DataGrid Name="TestCaseSteps" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <!--<DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />-->
-                    <DataGridTextColumn Header="步骤" Binding="{Binding Path=StepOrder}" Width="10*" />
-                    <DataGridTextColumn Header="执行操作" Binding="{Binding Path=StepActions}" Width="45*"/>
-                    <DataGridTextColumn Header="预期结果" Binding="{Binding Path=StepResults}" Width="45*"/>
-                    <!--<DataGridTextColumn Header="修改人" Binding="{Binding Path=UpdateBy}" />
+            <Grid Name="NodeDetails" Visibility="Visible" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="100*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="测试用例集编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="测试用例集名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="测试用例集备注" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="修改人" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="修改时间" Grid.Column="2" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="创建人" Grid.Column="0" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="创建时间" Grid.Column="2" Grid.Row="5" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <TextBox Name="TestsuiteId" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+                <TextBox Name="TestsuiteName" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+                <RichTextBox Name="TestsuiteNote" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Name="TestsuiteModifier" Grid.Column="1" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Name="TestsuiteModifyTime" Grid.Column="3" Grid.Row="4"  Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Name="TestsuiteCreator" Grid.Column="1" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Name="TestsuiteCreateTime" Grid.Column="3" Grid.Row="5" Margin="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+            </Grid>
+
+            <Grid Name="TestCaseDetails" Visibility="Hidden" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="16*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="50*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="测试用例编号" Grid.Column="0" Grid.Row="0" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="测试用例名称" Grid.Column="0" Grid.Row="1" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="摘要" Grid.Column="0" Grid.Row="2" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="前提" Grid.Column="0" Grid.Row="3" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="重要性" Grid.Column="0" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <Label Content="用例类型" Grid.Column="3" Grid.Row="4" Style="{DynamicResource LabelPrimary}" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                <TextBox Name="TestcaseId" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+                <TextBox Name="TestcaseName" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+                <TextBox Name="TestcaseSummary" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus"/>
+                <TextBox Name="TestcasePrecondition" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" LostFocus="Property_LostFocus" />
+                <ComboBox Name="TestCaseImportance" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ImportanceLevel}}"/>
+                <ComboBox Name="TestCaseType" Grid.Column="5" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ExecuteType}}"/>
+
+                <DataGrid Name="TestCaseSteps" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <!--<DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />-->
+                        <DataGridTextColumn Header="步骤" Binding="{Binding Path=StepOrder}" Width="10*" />
+                        <DataGridTextColumn Header="执行操作" Binding="{Binding Path=StepActions}" Width="45*"/>
+                        <DataGridTextColumn Header="预期结果" Binding="{Binding Path=StepResults}" Width="45*"/>
+                        <!--<DataGridTextColumn Header="修改人" Binding="{Binding Path=UpdateBy}" />
                     <DataGridTextColumn Header="修改时间" Binding="{Binding Path=UpdateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                     <DataGridTextColumn Header="创建人" Binding="{Binding Path=CreateBy}" />
                     <DataGridTextColumn Header="创建时间" Binding="{Binding Path=CreateTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />-->
-                </DataGrid.Columns>
-            </DataGrid>
+                    </DataGrid.Columns>
+                </DataGrid>
 
 
-            <Label Content="执行人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="执行方式" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="执行结果" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="修改人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="修改时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="创建人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Content="创建时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="执行人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="执行时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="6" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="执行方式" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="执行结果" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="7" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="修改人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="修改时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="8" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="创建人" Style="{DynamicResource LabelPrimary}" Grid.Column="0" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Content="创建时间" Style="{DynamicResource LabelPrimary}" Grid.Column="3" Grid.Row="9" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-            <Label Name="TestCaseExecutor" Content="TestCaseExecutor" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseExecuteTime" Content="TestCaseExecuteTime" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseExecuteType" Content="TestCaseTestCaseType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}" DropDownClosed="TestCaseExecuteResult_DropDownClosed" />
-            <Label Name="TestCaseModifier"  Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseModifyTime" Content="TestCaseModifyTime" Grid.Column="5" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseExecutor" Content="TestCaseExecutor" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseExecuteTime" Content="TestCaseExecuteTime" Grid.Column="5" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseExecuteType" Content="TestCaseTestCaseType" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <ComboBox Name="TestCaseExecuteResult" Grid.Column="5" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Beige" ItemsSource="{Binding Source={StaticResource ExecuteResultType}}" DropDownClosed="TestCaseExecuteResult_DropDownClosed" />
+                <Label Name="TestCaseModifier"  Grid.Column="2" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseModifyTime" Content="TestCaseModifyTime" Grid.Column="5" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseCreator" Content="TestCaseCreator" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Label Name="TestCaseCreateTime"  Content="TestCaseCreateTime" Grid.Column="5" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Grid>
+
+            <RichTextBox Name="outputRTB" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></RichTextBox>
         </Grid>
-
-        <RichTextBox Name="outputRTB" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></RichTextBox>
     </Grid>
 
 

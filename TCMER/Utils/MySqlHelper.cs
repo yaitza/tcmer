@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using MySql.Data.MySqlClient;
 
 namespace TCMER.Utils
@@ -43,11 +44,12 @@ namespace TCMER.Utils
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
+                DisplayHelper.ShowMessage(ex.Message, Color.FromRgb(255, 0, 0));
                 throw new Exception(ex.Message);
             }
             finally
             {
-                _mySqlConnection.Close();
+                _mySqlConnection.Close();                
             }
             return ds;
         }
@@ -70,6 +72,7 @@ namespace TCMER.Utils
                 }
                 catch (System.Data.SqlClient.SqlException e)
                 {
+                    DisplayHelper.ShowMessage(e.Message, Color.FromRgb(255, 0, 0));
                     _mySqlConnection.Close();
                     throw e;
                 }

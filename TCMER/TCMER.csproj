@@ -100,6 +100,9 @@
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controller\TreeController.cs" />
+    <Compile Include="Controller\UserController.cs" />
+    <Compile Include="Dao\UserMapper.cs" />
+    <Compile Include="Model\UserModel.cs" />
     <Compile Include="Dao\TestCaseMapper.cs" />
     <Compile Include="Dao\TreeNodeMapper.cs" />
     <Compile Include="Model\ConfigModel.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Model\TestCaseNodeModel.cs" />
     <Compile Include="Model\TestStepModel.cs" />
     <Compile Include="Model\TreeNodeModel.cs" />
+    <Compile Include="Model\UserStatus.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

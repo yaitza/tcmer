@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Windows.Media;
 using TCMER.Model;
 
 namespace TCMER.Utils
@@ -53,7 +54,8 @@ namespace TCMER.Utils
             using (var db = new LiteDatabase(ConnectionString))
             {
                 var configData = db.GetCollection<ConfigModel>("Config");
-                configData.Update(updateData);
+                int result = configData.Update(updateData);
+                DisplayHelper.ShowMessage(result.ToString(), Color.FromRgb(95, 158, 160));
             }
         }
 
@@ -64,7 +66,7 @@ namespace TCMER.Utils
             {
                 Id = 1,
                 ConfigName = @"MySqlConnectionString",
-                ConfigValue = @"Server=52.83.196.98;user id=admin;password=admin@zh;Database=TCMER;Port=3306;charset=utf8;"
+                ConfigValue = @"Server=localhost;user id=admin;password=admin@zh;Database=TCMER;Port=3306;charset=utf8;"
             };
             initData.Add(cm);
 
