@@ -36,10 +36,10 @@ namespace TCMER
                 return;
             }
             if (this.TreeView.SelectedItem != null)
-            {
+            {                
                 TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+                DisplayHelper.ShowMessage(tnm.DataBody, Color.FromRgb(0, 0, 255));
                 this.ShowData(tnm);
-
                 if (tnm.NodeType == NodeType.TestCase)
                 {
                     ContextMenu treeViewContextMenu = this.TreeView.ContextMenu;
@@ -431,12 +431,13 @@ namespace TCMER
             }
             else
             {
-                Run appendText = new Run { Text = $"{DateTime.Now.ToString("u")} {msg} {Environment.NewLine}", Foreground = new SolidColorBrush(color) };                
+                Run appendText = new Run { Text = $"{DateTime.Now.ToString("u")} {msg}", Foreground = new SolidColorBrush(color) };                
                 Paragraph paragraph = new Paragraph();
                 paragraph.Inlines.Add(appendText);
 
                 this.outputRTB.Document.Blocks.Add(paragraph);
-                this.outputRTB.UpdateLayout();
+                this.outputRTB.Focus();
+                this.outputRTB.ScrollToEnd();
             }
         }
 

@@ -16,10 +16,5 @@ namespace TCMER.Utils
                 ShowMethod.Invoke(msg, color);
             }
         }
-
-        internal static void ShowMessage(string message, object red)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
