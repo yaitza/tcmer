@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="Utils\ConfigHelper.cs" />
     <Compile Include="Utils\DisplayHelper.cs" />
+    <Compile Include="Utils\LoginInfo.cs" />
     <Compile Include="Utils\MySqlHelper.cs" />
     <Compile Include="Utils\StringCipher.cs" />
     <Page Include="About.xaml">

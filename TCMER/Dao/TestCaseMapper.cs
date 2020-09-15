@@ -20,9 +20,9 @@ namespace TCMER.Dao
 
         public const string SqlStr4 = @"INSERT INTO `TCMer`.`node_case_map`(`ID`, `TREENODE_ID`, `TESTCASE_ID`, `VERSIONID`) VALUES ('{0}', '{1}', '{2}', '{3}')";
 
-        public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `ORDERID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', '{2}', NULL, NULL, 2, 0, 'muyi', NOW(), 'muyi', NOW());
+        public const string SqlStr5 = @"INSERT INTO `TCMer`.`testcase`(`ID`, `ORDERID`, `NAME`, `SUMMARY`, `PRECONDITION`, `IMPORTANCE`, `TYPE`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`) VALUES ('{0}', '{1}', '{2}', NULL, NULL, 2, 0, '{3}', NOW(), '{4}', NOW());
 ";
-        private const string SqlStr6 = @"UPDATE `TCMer`.`testcase` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
+        private const string SqlStr6 = @"UPDATE `TCMer`.`testcase` SET `{0}` = '{1}', `UPDATED_BY` = '{2}'  WHERE `ID` = '{3}'";
 
         private const string SqlStr7 = @"UPDATE `TCMer`.`testcase` SET `DELETED` = 1 WHERE `ID` = '{0}'";
 
@@ -92,20 +92,20 @@ namespace TCMER.Dao
         }
 
         [Obsolete]
-        public void InsertTestCase(TestCaseModel tcm, TreeNodeModel stnm)
+        public void InsertTestCase(TestCaseModel tcm, TreeNodeModel stnm, UserModel um)
         {
             string guid = System.Guid.NewGuid().ToString();
             string SqlStr4tmp = string.Format(SqlStr4, guid, stnm.Id, tcm.Id, stnm.RootId);
-            string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.OrderId, tcm.Id);
+            string SqlStr5tmp = string.Format(SqlStr5, tcm.Id, tcm.OrderId, tcm.Id, um.Name, um.Name);
             
             _mySqlHelper.ExecuteSql(SqlStr5tmp);
             _mySqlHelper.ExecuteSql(SqlStr4tmp);
         }
 
         [Obsolete]
-        public void UpdateTestCaseProperty(string property, string value, string id)
+        public void UpdateTestCaseProperty(string property, string value, string userName, string id)
         {
-            string sqlStr6Tmp = string.Format(SqlStr6, property, value, id);
+            string sqlStr6Tmp = string.Format(SqlStr6, property, value, userName, id);
             _mySqlHelper.ExecuteSql(sqlStr6Tmp);
         }
 

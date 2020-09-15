@@ -34,7 +34,7 @@ namespace TCMER.Dao
                                 FROM testcase tc LEFT JOIN node_case_map nc ON nc.TESTCASE_ID = tc.ID WHERE nc.TREENODE_ID = '{0}' AND nc.VERSIONID = '{1}' AND tc.DELETED = 0 ORDER BY tc.ORDERID";
 
         private const string SqlStr4 =
-            @"INSERT INTO `TCMer`.`treenode`(`ID`, `ORDERID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', '{2}', 'muyi', NOW(), 'muyi', NOW(), 0, {3})";
+            @"INSERT INTO `TCMer`.`treenode`(`ID`, `ORDERID`, `DATA_BODY`, `CREATED_BY`, `CREATED_TIME`, `UPDATED_BY`, `UPDATED_TIME`, `DELETED`, `VFLAG`) VALUES ('{0}', '{1}', '{2}', '{3}', NOW(), '{4}', NOW(), 0, {5})";
 
         private const string SqlStr5 =
             @"INSERT INTO `TCMer`.`treehierarchy`(`ANCESTOR`, `DESCENDANT`, `DEPTH`, `VERSIONID`) VALUES ('{0}', '{1}', {2}, 'root')";
@@ -47,7 +47,7 @@ namespace TCMER.Dao
 
         private const string SqlStr7 = @"SELECT `VFLAG` FROM `TCMer`.`treenode` WHERE ID = '{0}'";
 
-        private const string SqlStr8 = @"UPDATE `TCMer`.`treenode` SET `{0}` = '{1}' WHERE `ID` = '{2}'";
+        private const string SqlStr8 = @"UPDATE `TCMer`.`treenode` SET `{0}` = '{1}', `UPDATED_BY` = '{2}' WHERE `ID` = '{3}'";
 
         private const string SqlStr9 = @"UPDATE `TCMer`.`treenode` SET `DELETED` = 1 WHERE `ID` = '{0}'";
 
@@ -222,9 +222,9 @@ namespace TCMER.Dao
         }
 
         [Obsolete]
-        public void InsertTreeNode(TreeNodeModel tnm, TreeNodeModel stnm)
+        public void InsertTreeNode(TreeNodeModel tnm, TreeNodeModel stnm, UserModel um)
         {
-            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, 0);
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, um.Name, um.Name, 0);
             string sqlStr5Tmp = string.Format(SqlStr5, stnm.Id, tnm.Id, tnm.Depth);
 
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
@@ -245,9 +245,9 @@ namespace TCMER.Dao
         }
 
         [Obsolete]
-        public void InsertTreeNode(TreeNodeModel tnm)
+        public void InsertTreeNode(TreeNodeModel tnm, UserModel um)
         {
-            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, 1);
+            string sqlStr4Tmp = string.Format(SqlStr4, tnm.Id, tnm.OrderId, tnm.DataBody, um.Name, um.Name, 1);
             string sqlStr5Tmp = string.Format(SqlStr5, tnm.Id, tnm.Id, tnm.Depth);
             _mySqlHelper.ExecuteSql(sqlStr4Tmp);
             _mySqlHelper.ExecuteSql(sqlStr5Tmp);
@@ -286,9 +286,9 @@ namespace TCMER.Dao
         }
 
         [Obsolete]
-        public void UpdateTreeNodeProperty(string property, string value, string id)
+        public void UpdateTreeNodeProperty(string property, string value, string userName, string id)
         {
-            string sqlStr8Tmp = string.Format(SqlStr8, property, value, id);
+            string sqlStr8Tmp = string.Format(SqlStr8, property, value, userName, id);
             _mySqlHelper.ExecuteSql(sqlStr8Tmp);
         }
 

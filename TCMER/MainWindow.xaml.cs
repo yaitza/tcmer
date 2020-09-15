@@ -197,6 +197,7 @@ namespace TCMER
         [Obsolete]
         private void AddTestSuite_Click(object sender, RoutedEventArgs e)
         {
+            UserModel um = LoginInfo.getInstance();
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
 
             if (stnm != null)
@@ -214,7 +215,7 @@ namespace TCMER
                 stnm.Nodes.Add(tnm);
 
                 TreeNodeMapper tcm = new TreeNodeMapper();
-                tcm.InsertTreeNode(tnm, stnm);
+                tcm.InsertTreeNode(tnm, stnm, um);
             }
             else
             {
@@ -229,7 +230,7 @@ namespace TCMER
                 tnm.DataBody = guid;
 
                 TreeNodeMapper tcm = new TreeNodeMapper();
-                tcm.InsertTreeNode(tnm);
+                tcm.InsertTreeNode(tnm, um);
 
                 this.TreeView.Items.Add(tcm);
             }
@@ -239,6 +240,7 @@ namespace TCMER
         [Obsolete]
         private void AddTestCase_Click(object sender, RoutedEventArgs e)
         {
+            UserModel um = LoginInfo.getInstance();
             TreeNodeModel stnm = this.TreeView.SelectedItem as TreeNodeModel;
 
             TestCaseModel tcm = new TestCaseModel();
@@ -257,7 +259,7 @@ namespace TCMER
             stnm.Nodes.Add(tnm);
 
             TestCaseMapper tcmer = new TestCaseMapper();
-            tcmer.InsertTestCase(tcm, stnm);
+            tcmer.InsertTestCase(tcm, stnm, um);
 
             this.TreeView.Items.Refresh();
         }
@@ -306,15 +308,17 @@ namespace TCMER
                 }
             }
 
+            UserModel um = LoginInfo.getInstance();
+
             if (tb.Name.Equals("TestsuiteId") || tb.Name.Equals("TestsuiteName"))
             {
                 TreeNodeMapper tnmm = new TreeNodeMapper();
-                tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, _stayId);
+                tnmm.UpdateTreeNodeProperty(PorpertiesMap[tb.Name], tb.Text, um.Name, _stayId);
             }
             else
             {
                 TestCaseMapper tcm = new TestCaseMapper();
-                tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, _stayId);
+                tcm.UpdateTestCaseProperty(PorpertiesMap[tb.Name], tb.Text, um.Name, _stayId);
             }
             this.TreeView.Items.Refresh();
 
@@ -352,15 +356,17 @@ namespace TCMER
             tempTxB.Visibility = Visibility.Visible;
 
             TreeNodeModel tnm = this.TreeView.SelectedItem as TreeNodeModel;
+
+            UserModel um = LoginInfo.getInstance();
             if (tnm.NodeType == NodeType.TestSuite)
             {
                 TreeNodeMapper tnmm = new TreeNodeMapper();
-                tnmm.UpdateTreeNodeProperty("DATA_BODY", tempTB.Text, tnm.Id);
+                tnmm.UpdateTreeNodeProperty("DATA_BODY", tempTB.Text, um.Name, tnm.Id);
             }
             else
             {
                 TestCaseMapper tcm = new TestCaseMapper();
-                tcm.UpdateTestCaseProperty("NAME", tempTB.Text, tnm.Id);
+                tcm.UpdateTestCaseProperty("NAME", tempTB.Text, um.Name, tnm.Id);
             }
 
 
@@ -480,6 +486,7 @@ namespace TCMER
             }
             else
             {
+                LoginInfo.setInstance(um);
                 this.LoginUI.Visibility = Visibility.Hidden;
                 this.MainWindowUI.Visibility = Visibility.Visible;
             }
